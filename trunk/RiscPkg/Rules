@@ -1,0 +1,18 @@
+PKGNAME = RiscPkg-Policy
+VERSION = 0/0/0/0
+
+pkg:
+	CDir Temp
+	Wipe Temp ~CFR~V
+	CDir Temp
+	CDir Temp.RiscPkg
+	Copy RiscPkg.Copyright Temp.RiscPkg.Copyright ~CFR~V
+	Copy Manuals Temp.Manuals ~CFR~V
+	Access Temp.Manuals.RiscPkg-Policy.* LR/R
+
+	Dir Temp
+	RiscPkg-GenControl $(PKGNAME) < ../RiscPkg/Control > RiscPkg/Control
+	zip -r ^.$(PKGNAME)_$(VERSION) * -i@^.RiscPkg.$(PKGNAME)/inc -x *.CVS.*
+
+	Dir ^
+	Wipe Temp ~CFR~V
