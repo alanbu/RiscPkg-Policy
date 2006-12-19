@@ -557,10 +557,9 @@ md5sum = 32 * hex-digit;
 </pre>
 
 <h4>The &lsquo;URL&rsquo; field</h4>
-<p>This contains an absolute URL from which this package can be
-downloaded.</p>
-<p>Future extensions to this field are likely to include the use of relative
-URLs and the ability to specify more than one URL.</p>
+<p>This contains an absolute or relative URL from which this package can
+downloaded.  If the URL is relative then it is resolved with respect to
+the package index file in which it was specified.</p>
 
 <h4>The &lsquo;Depends&rsquo; field</h4>
 <p>This contains a comma-separated list of other packages which must be
