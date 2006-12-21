@@ -103,6 +103,11 @@ are stored when no other location (such as an application directory) is
 more appropriate.</td>
 </tr>
 <tr>
+<td><code>Sprites</code></td>
+<td>Optional</td>
+<td>A directory which contains sprite declarations.</td>
+</tr>
+<tr>
 <td><code>SysVars</code></td>
 <td>Optional</td>
 <td>A directory which contains system variable definitions.</td>
@@ -874,6 +879,30 @@ application directory cannot be made read-only, and (c) because
 the system variable cannot be shared between applications.</p>
 </blockquote>
 
+<h2>Sprites</h2>
+<h3>Sprite declarations</h3>
+<p>The package manager has the ability to load sprites into the Wimp sprite
+pool at boot time.  For this to happen the sprite must be declared.  A
+package can do this by placing a file named after the sprite in its
+<code>Sprites</code> directory.</p>
+<p>At present the file must be a text file, in which case it contains the
+pathname of the sprite file that contains the sprite.  The pathname is parsed
+using <code>OS_GSTrans</code> or an equivalent, with the addition of
+support for logical pathname references (as described below).</p>
+<p>Only one sprite may be specified per declaration, however any number of
+declarations may refer to a single sprite file.</p>
+
+<h3>Sprite resolution</h3>
+<p>The sprite file identified by the pathname should be one that is
+suitable for use as an argument to the <code>IconSprites</code> command.
+If higher-resolution versions of this file are present then they will be
+recognised automatically by the package manager, provided that the
+conventional suffixes are used.  For example, if a package provides
+sprite files called <code>!Sprites</code>, <code>!Sprites22</code> and
+<code>!Sprites11</code> then declarations should refer to the first of
+these only, but one of the others will be used if it is a better match to
+the screen mode.</p>
+
 <h2>Command line programs</h2>
 <p>The preferred method for distributing command line programs is to
 encapsulate each one within a separate application directory, then
@@ -900,9 +929,10 @@ into the same package as the executable.  More elaborate graphical front ends
 should in most cases be packaged separately.</p>
 
 <h2>Logical Pathname References</h2>
-<p>When specifying the content of a system variable it may be necessary
-to translate a logical pathname to a physical pathname.  This is done using
-an extension of the syntax implemented by <code>OS_GSTrans</code>:</p>
+<p>When specifying the content of a system variable or the location of a
+sprite file it may be necessary to translate a logical pathname to a physical
+pathname.  This is done using an extension of the syntax implemented by
+<code>OS_GSTrans</code>:</p>
 <pre>
 logical-pathname-reference = '&lt;', package-name, '$', '@', logical-pathname, '&gt;';
 
