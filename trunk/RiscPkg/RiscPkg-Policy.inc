@@ -1,2 +1,2 @@
-RiscPkg.*
-Manuals.*
+RiscPkg/*
+Manuals/*

@@ -1,18 +1,22 @@
-PKGNAME = RiscPkg-Policy
-VERSION = 0/1/0/0
+VERSION = 0.1.0.0
+PACKAGES = RiscPkg-Policy_$(VERSION)
 
 pkg:
-	CDir Temp
-	Wipe Temp ~CFR~V
-	CDir Temp
-	CDir Temp.RiscPkg
-	Copy RiscPkg.Copyright Temp.RiscPkg.Copyright ~CFR~V
-	Copy Manuals Temp.Manuals ~CFR~V
-	Access Temp.Manuals.RiscPkg-Policy.* LR/R
+	rm -rf Temp
+	mkdir -p Temp/RiscPkg
+	cp RiscPkg/Copyright Temp/RiscPkg/
+	cp -r Manuals Temp/
 
-	Dir Temp
-	RiscPkg-GenControl $(PKGNAME) < ../RiscPkg/Control > RiscPkg/Control
-	zip -r ^.$(PKGNAME)_$(VERSION) * -i@^.RiscPkg.$(PKGNAME)/inc -x *.CVS.*
+	chmod -R 444 Temp/Manuals
+	make -C Temp -f ../RiscPkg/Rules $(PACKAGES)
+	rm -rf Temp
 
-	Dir ^
-	Wipe Temp ~CFR~V
+.PHONY: clean
+
+.PHONY: distclean
+
+.PHONY: $(PACKAGES)
+$(PACKAGES): %:
+	riscpkg-gencontrol $(firstword $(subst _, ,$@)) < ../RiscPkg/Control > RiscPkg/Control
+	rm -f ../RiscPkg/$@
+	zip -r ../RiscPkg/$@ * -i@../RiscPkg/$(firstword $(subst _, ,$@)).inc
