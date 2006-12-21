@@ -801,11 +801,24 @@ The following characters (and no others) must be escaped:
 &lsquo;%&rsquo; (percent-sign),
 &lsquo;\&rsquo; (backslash) and
 &lsquo;=&rsquo; (equals-sign).</p>
-<p>At present the file must be a text file, in which case it contains
-a literal value with which to initialise the system variable.  All other
-filetypes are reserved for future use.  It is recognised that literal
-values are inadequate for most purposes and that a more flexible
-capability is needed.</p>
+<p>The following filetypes are allowed:</p>
+<table border="1">
+<tr>
+<th>Filetype</th>
+<th>Content</th>
+</tr>
+<tr>
+<td>Text</td>
+<td>A parsed string with which to initialise the system variable.</td>
+</tr>
+<tr>
+<td>Data</td>
+<td>An unparsed string with which to initialise the system variable.</td>
+</tr>
+</table>
+<p>All other filetypes are reserved for future use.  If a string is parsed
+then this is done by <code>OS_GSTrans</code> or an equivalent, with the
+addition of support for logical pathname references (as described below).</p>
 <p>Note that this mechanism does <i>not</i> replace the need to set system variables in <code>!Boot</code> and <code>!Run</code> files.</p>
 
 <h3>Use of <code>Run$Path</code></h3>
@@ -885,6 +898,27 @@ files may be added as required.</p>
 they are reasonably small (as is likely to be the case) they can be bundled
 into the same package as the executable.  More elaborate graphical front ends
 should in most cases be packaged separately.</p>
+
+<h2>Logical Pathname References</h2>
+<p>When specifying the content of a system variable it may be necessary
+to translate a logical pathname to a physical pathname.  This is done using
+an extension of the syntax implemented by <code>OS_GSTrans</code>:</p>
+<pre>
+logical-pathname-reference = '&lt;', package-name, '$', '@', logical-pathname, '&gt;';
+
+</pre>
+<p>For example, the logical path <code>Apps.Admin.!RiscPkg</code> within
+the package <code>RiscPkg</code> would be expressed as:</p>
+<pre>
+&lt;RiscPkg$@Apps.Admin.!RiscPkg&gt;
+
+</pre>
+<p>Only pathnames can be processed in this way.  If a path is required then
+the trailing period must be placed outside the logical path reference:</p>
+<pre>
+&lt;RiscPkg$@Apps.Admin.!RiscPkg&gt;.
+
+</pre>
 
 <h2>Acknowledgements</h2>
 <p>Significant aspects of this policy manual are based on the
