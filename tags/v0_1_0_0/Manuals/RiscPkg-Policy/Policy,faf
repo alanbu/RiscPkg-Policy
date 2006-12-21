@@ -1,0 +1,963 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+ "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>RISC OS Packaging Project: Policy Manual</title>
+</head>
+<body>
+<h1 align="center">RISC OS Packaging Project<br>
+Policy Manual<br>
+Version 0.1.0.0 (21 Dec 2006)</h1>
+<h2>Introduction</h2>
+<p>This is the Policy Manual for the RISC&nbsp;OS Packaging Project.  It
+defines the standards which packages are normally expected to meet if they
+are to be accepted as part of the project.  These include:</p>
+<ul>
+<li>the technical requirements of the package manager;</li>
+<li>measures to prevent packages from interfering with each other;</li>
+<li>documentation standards; and</li>
+<li>legal requirements.</li>
+</ul>
+<p>Rules can be broken where there is good reason to do so, however a
+consensus must be reached beforehand if other parts of the project are
+affected.</p>
+<p>These rules do not apply to packages distributed independently of the
+project.</p>
+
+<h2>Aims</h2>
+<p>The aims of the project are:</p>
+<ol>
+<li>to build and distribute a collection of RISC&nbsp;OS software packages;
+</li>
+<li>to provide a convienient mechanism for users to install, update
+and remove packages on their computers;</li>
+<li>to promote consistency and peaceful co-existence among packages in the
+collection by setting policies to regulate their content and behaviour;</li>
+<li>to provide a systematic mechanism for recording, characterising
+and fixing bugs in the package collection;</li>
+<li>to ensure that the legal status of all software in the package collection
+is understood and respected;</li>
+<li>to promote the development of free and open source software for
+RISC&nbsp;OS.</li>
+</ol>
+
+<h2>Notation</h2>
+<p>Extended Backus-Naur Form (EBNF) is used to specify the syntax of data
+structures.  A formal description may be found in ISO/IEC 14977.  Briefly:</p>
+<ul>
+<li>a comma (<code>','</code>) indicates concatenation;</li>
+<li>a pipe (<code>'|'</code>) indicates a choice of alternatives;</li>
+<li>an asterisk (<code>'*'</code>) indicates an item repeated a specific
+number of times;</li>
+<li>square brackets (<code>'['</code> and <code>']'</code>) enclose an
+optional sequence.</li>
+<li>braces (<code>'{'</code> and <code>'}'</code>) enclose a sequence
+repeated zero or more times.</li>
+<li>parentheses (<code>'('</code> and <code>')'</code>) group items together.
+</li>
+<li>a semicolon (<code>';'</code>) indicates the end of a production.</li>
+</ul>
+<p>The meta-identifer <code>ws</code> indicates whitespace:</p>
+<pre>
+ws = ws-character, {ws-character};
+
+ws-character = space-character | newline-character;
+
+</pre>
+
+<h2>Package Format</h2>
+<h3>Binary Package Format</h3>
+<p>A binary package consists of a zip file containing some or all of
+the following files and directories:</p>
+<table border="1">
+<tr>
+<td><code>RiscPkg</code></td>
+<td>Required</td>
+<td>A directory which contains information about the package.</td>
+</tr>
+<tr>
+<td><code>RiscPkg.Control</code></td>
+<td>Required</td>
+<td>The package control file, containing information about the package
+and its relationship to other packages.</td>
+</tr>
+<tr>
+<td><code>RiscPkg.Copyright</code></td>
+<td>Required</td>
+<td>A text file which states where the package was obtained from, who
+owns the copyright, and how it is licenced.</td>
+</tr>
+<tr>
+<td><code>Apps</code></td>
+<td>Optional</td>
+<td>The root of the hierarchy within which applications are stored.
+A package in a given section normally uses a subdirectory of
+<code>Apps</code> named after that section.</td>
+</tr>
+<tr>
+<td><code>Manuals</code></td>
+<td>Optional</td>
+<td>The root of the heirarchy within which manuals and other documentation
+are stored when no other location (such as an application directory) is
+more appropriate.</td>
+</tr>
+<tr>
+<td><code>Sprites</code></td>
+<td>Optional</td>
+<td>A directory which contains sprite declarations.</td>
+</tr>
+<tr>
+<td><code>SysVars</code></td>
+<td>Optional</td>
+<td>A directory which contains system variable definitions.</td>
+</tr>
+<tr>
+<td><code>System</code></td>
+<td>Optional</td>
+<td>A directory which corresponds to the active <code>!System</code>
+directory.</td>
+</tr>
+</table>
+<p>Each file has an associated logical path (its location within the package
+file) and a physical path (its location when installed).  Only the
+logical path is specified within the package file.  The package manager
+(on behalf of the user) is responsible for translating logical paths into
+physical paths, and it has considerable freedom as to how it does this.
+The only rule is that the translation must be reasonable.  For example:
+<ul>
+<li>it is reasonable for the user to place modules in any directory of
+his choosing, provided they can then be accessed through the
+<code>System$Path</code>.</li>
+<li>it is unreasonable for a <code>!Run</code> file to be separated from
+the application directory to which it belongs.</li>
+</ul>
+<p>Packages are expected to cope with reasonable translations, and should
+not make unnecessary assumptions about where their files have been placed.
+</p>
+
+<p>(For simple desktop applications, the usual practice of defining a system
+variable of the form <code>App$Dir</code> then accessing files with respect
+to that variable is sufficient to meet this requirement.)</p>
+
+<h3>Source Package Format</h3>
+<p>A source package consists of a zip file which includes the following
+files:</p>
+<table border="1">
+<tr>
+<td><code>RiscPkg</code></td>
+<td>Required</td>
+<td>A directory which contains information about the package.</td>
+</tr>
+<tr>
+<td><code>RiscPkg.Control</code></td>
+<td>Required</td>
+<td>The package control file, containing basic information about the
+package and its relationship to other packages.</td>
+</tr>
+<tr>
+<td><code>RiscPkg.Copyright</code></td>
+<td>Required</td>
+<td>A text file which details where the package was obtained from, who
+owns the copyright, and how it is licenced.</td>
+</tr>
+<tr>
+<td><code>RiscPkg.Rules</code></td>
+<td>Optional</td>
+<td>The top-level makefile for building the binary package(s).</td>
+</tr>
+</table>
+<p>The file <code>RiscPkg.Rules</code> will be required (and its
+behaviour specified) when some of the outstanding toolchain issues have
+been resolved.</p>
+
+<h3>Control records</h3>
+<h4>Introduction</h4>
+<p>A control record is a structure used to record information about a
+package for use by the package manager.  There are two types of control
+record (source and binary) and two types of file in which they can appear
+(package control files and package index files):</p>
+
+<table border="1">
+<tr>
+<th>File</th>
+<th>Content</th>
+</tr>
+<tr>
+<td>Binary control file</td>
+<td>One binary control record</td>
+</tr>
+<tr>
+<td>Source control file</td>
+<td>One source control record; one binary control record for each
+resulting binary package</td>
+</tr>
+<tr>
+<td>Binary index file</td>
+<td>One binary control record for each binary package</td>
+</tr>
+<tr>
+<td>Source index file</td>
+<td>One source control record for each source package</td>
+</tr>
+</table>
+
+<p>Package index files list all of the packages that make up a particular
+distribution, and are the only information available to the package manager
+(or the user) when deciding which packages to download.  Package control
+files are located within the packages to which they refer, so are only
+available once those packages have been downloaded.  Unlike index file
+records they are guaranteed to exist whether or not the package is part of
+a distribution and whether or not it has been superceded by a new version.
+</p>
+<p>Each control record consists of a sequence of control fields:</p>
+<pre>
+control-record = control-field, {control-field};
+</pre>
+<p>and each field consists of a name and a value, optionally followed by
+a number of continuation lines:</p>
+<pre>
+control-field = control-field-name, ':', space-character,
+  control-field-value, newline, {continuation-line};
+</pre>
+<p>For example:</p>
+<pre>
+Package: RiscPkg
+Priority: Required
+Section: Admin
+Version: 0.2.0
+</pre>
+<p>The fields that are allowed or required in a given control record depend
+on whether it is a source or binary control record, and whether it is
+located in a control file or an index file:</p>
+
+<table border="1">
+<tr>
+<th>Name</th>
+<th>Source</th>
+<th>Binary</th>
+<th>Index only</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>Source</td>
+<td>Required</td>
+<td>Optional</td>
+<td>No</td>
+<td>The name of the source package</td>
+</tr>
+<tr>
+<td>Package</td>
+<td>&mdash;</td>
+<td>Required</td>
+<td>No</td>
+<td>The name of the binary package</td>
+</tr>
+<tr>
+<td>Section</td>
+<td>Required</td>
+<td>Required</td>
+<td>No</td>
+<td>A label for classifying packages by purpose</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td>Required</td>
+<td>Required</td>
+<td>No</td>
+<td>A label for classifying packages by importance</td>
+</tr>
+<tr>
+<td>Licence</td>
+<td>Required</td>
+<td>Required</td>
+<td>No</td>
+<td>The type of licence carried by the package</td>
+</tr>
+<tr>
+<td>Maintainer</td>
+<td>Required</td>
+<td>Required</td>
+<td>No</td>
+<td>The name and e-mail address of the maintainer</td>
+</tr>
+<tr>
+<td>Standards-Version</td>
+<td>Required</td>
+<td>Required</td>
+<td>No</td>
+<td>The version of this policy manual to which the package conforms</td>
+</tr>
+<tr>
+<td>Version</td>
+<td>Required</td>
+<td>Required</td>
+<td>No</td>
+<td>The version number</td>
+</tr>
+<tr>
+<td>Size</td>
+<td>Optional</td>
+<td>Optional</td>
+<td>Yes</td>
+<td>The size of the package file</td>
+</tr>
+<tr>
+<td>MD5Sum</td>
+<td>Optional</td>
+<td>Optional</td>
+<td>Yes</td>
+<td>The MD5sum of the package file</td>
+</tr>
+<tr>
+<td>URL</td>
+<td>Optional</td>
+<td>Optional</td>
+<td>Yes</td>
+<td>A URL from which the package may be downloaded</td>
+</tr>
+<tr>
+<td>Build-Depends</td>
+<td>Optional</td>
+<td>&mdash;</td>
+<td>No</td>
+<td>Packages which must be present for this one to be built</td>
+</tr>
+<tr>
+<td>Depends</td>
+<td>&mdash;</td>
+<td>Optional</td>
+<td>No</td>
+<td>Packages which must be present for this one to be installed</td>
+</tr>
+<tr>
+<td>Recommends</td>
+<td>&mdash;</td>
+<td>Optional</td>
+<td>No</td>
+<td>Packages which would normally be wanted when this one is installed</td>
+</tr>
+<tr>
+<td>Suggests</td>
+<td>&mdash;</td>
+<td>Optional</td>
+<td>No</td>
+<td>Packages which might be wanted because this one is installed</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Required</td>
+<td>Required</td>
+<td>No</td>
+<td>A brief description and a long description of this package</td>
+</tr>
+</table>
+
+<p>Field names are not case-sensitive, however they should normally be
+capitalised as in the table above.  They must begin at the start of a line
+and be followed by a colon and a space.</p>
+<p>The end of a control record is indicated either by a blank line or by
+the end of the file.</p>
+<p>Values which span several lines are written using continuation lines.
+These begin with a space (which is automatically removed by the parser).
+If a blank line is required as part of the value, it is written as a
+space followed by a period (also removed by the parser):</p>
+<pre>
+continuation-line = space, (control-field-value | '.'), newline;
+</pre>
+<blockquote><p>(The space serves to distinguish a continuation line from
+the start of a new field.  The dot serves to distinguish an otherwise empty
+continuation line from the end of the control record.)</p></blockquote>
+<p>For example:</p>
+<pre>
+Package: RiscPkg
+Priority: Required
+Section: Admin
+Version: 0.2.0
+Description: A package manager for RISC OS
+ The three main functions of RiscPkg are:
+ - to download and install new software packages on request;
+ - to update installed software packages when new versions are release; and
+ - to remove software packages when they are no longer needed.
+ .
+ If one package requires another in order to run, a request to install the
+ first will also install the second.  If a package has been installed
+ automatically but is no longer needed, it is removed.
+
+</pre>
+
+<h4>The &lsquo;Section&rsquo; field</h4>
+<p>This indicates the purpose of the package.  It contains one of the
+following section names:</p>
+
+<table border="1">
+<tr>
+<th>Section</th>
+<th>Content</th>
+</tr>
+<tr>
+<td>Admin</td>
+<td>System administration tools</td>
+</tr>
+<tr>
+<td>Library</td>
+<td>Libraries for any programming language.</td>
+</tr>
+<tr>
+<td>Misc</td>
+<td>Packages which do not readily fit into any other section.</td>
+</tr>
+<tr>
+<td>Module</td>
+<td>RISC&nbsp;OS modules</td>
+</tr>
+<tr>
+<td>Programming</td>
+<td>Programming tools (including compilers and interpreters but
+excluding libraries).</td>
+</tr>
+</table>
+
+<p>It is likely that additional sections will be defined in the future.
+The &lsquo;Misc&rsquo; section is available for packages which would
+otherwise be difficult to classify.  A package may move from one section
+to another whenever its version number changes.</p>
+
+<h4>The &lsquo;Priority&rsquo; field</h4>
+<p>This indicates how likely it is that a typical user will want the
+package if they have not explicitly asked for it.  It contains one of
+the following priority levels:</p>
+
+<table border="1">
+<tr>
+<th>Priority</th>
+<th>Meaning</th>
+</tr>
+<tr>
+<td>Required</td>
+<td>Packages which are needed for the system (including the package
+manager) to function correctly.  (Example: RiscPkg.)</td>
+</tr>
+<tr>
+<td>Important</td>
+<td>Packages which a user could reasonably expect to be present on
+any RISC&nbsp;OS system.  (Example: SysLog.)</td>
+</tr>
+<tr>
+<td>Standard</td>
+<td>Default packages for a typical user.  These should provide a reasonably
+small but not too limited RISC&nbsp;OS system.  Users will normally need to
+add to this selection to meet their specific requirements, but should find
+that many of the smaller and more generic applications they want are already
+present.  (Example: Nettle.)</td>
+</tr>
+<tr>
+<td>Optional</td>
+<td>Default packages for a user who wants to install almost everything,
+without regard for disc space or installation time.  (Example: GCC.)</td>
+</tr>
+<tr>
+<td>Extra</td>
+<td>Packages which have a very narrow audience, or which conflict with
+other packages of higher priority.  (Example: LibPkg.)</td>
+</tr>
+</table>
+<p>Packages are assumed to be optional unless there is a specific reason
+why they should have a higher or lower priority.  A consensus should be
+reached before choosing a priority higher than optional unless there are
+clear technical reasons why that priority is necessary or appropriate.</p>
+<p>A package declared as a dependency must be of equal or higher priority
+to the package declaring the dependency.</p>
+
+<h4>The &lsquo;Licence&rsquo; field</h4>
+<p>This provides information about how the package is licenced.
+It consists of a whitespace-separated list of licence tags.</p>
+<pre>
+licence = licence-tag, {ws, licence-tag};
+
+</pre>
+
+<table border="1">
+<tr>
+<th>Tag</th>
+<th>Definition</th>
+</tr>
+<tr>
+<td>Free</td>
+<td>Packages that meet the
+<a href="http://www.opensource.org/docs/definition.php">
+Open Source Definition</a>, as defined by the
+<a href="http://www.opensource.org/">Open Source Institute</a></td>
+</tr>
+<tr>
+<td>Non-free</td>
+<td>Packages that do not meet the Open Source Definition</td>
+</tr>
+</table>
+
+<p>Additional licence tags may be defined in the future.  Unrecognised
+tags should be ignored.  The tag list must be complete with respect to
+the declared standards-version; however, the fact that a tag is absent
+should not be taken to imply that the converse is true.</p>
+<p>If a package has several components with different licences, the most
+restrictive combination of terms is applicable.  If a package offers a
+choice of licence, the least restrictive option applies.  If there is
+significant doubt as to which tags apply, the more restrictive interpretation
+of the licence must be followed.</p>
+<p>Since only two tags are available at present and they are exact
+opposites, it follows that packages working to this version of policy
+must specify exactly one licence tag.</p>
+
+<h4>The &lsquo;Maintainer&rsquo; field</h4>
+<p>This identifies the package maintainer responsible for the package
+at the time it was issued.</p>
+<pre>
+maintainer = real-name, '<', email-address, '>';
+
+</pre>
+
+<h4>The &lsquo;Standards-Version&rsquo; field</h4>
+<p>This identifies the most recent version of the policy manual to
+which the package is thought to comply.  There are four numeric
+components to this version, representing (from left to right):</p>
+<ol>
+<li>changes to the package format which make packages incomprehensible
+to existing tools;</li>
+<li>changes to the package format which make packages incompatible with
+previous versions of the package manager;</li>
+<li>substantive changes to policy which do not affect compatibility
+between packages and the package manager.</li>
+<li>non-substantive changes to policy.</li>
+</ol>
+<p>Because the fourth component does not indicate substantive change,
+it is sufficient to specify the first three components in the
+standards-version field.</p>
+<p>For example, if the latest version of the policy manual is
+&lsquo;0.1.2.3&rsquo; and a package complies with that version, the
+standards-version field of the package should be set to
+&lsquo;0.1.2&rsquo;.</p>
+<p>Intentional non-compliance may be disregarded provided it does not
+affect how the package manager should process the package.</p>
+
+<h4>The &lsquo;Version&rsquo; field</h4>
+<p>This contains the package version.  It must increase (with respect
+to the sort order defined below) whenever the content of a package is
+upgraded, otherwise that upgrade will not be offered to the user.</p>
+<p>Versions are discussed in detail in a separate section below.</p>
+
+<h4>The &lsquo;Size&rsquo; field</h4>
+<p>This contains the size of the package file, expressed as a decimal
+number of bytes.</p>
+<pre>
+size = digit, {digit};
+
+</pre>
+
+<h4>The &lsquo;MD5Sum&rsquo; field</h4>
+<p>This contains the MD5 message digest of the package file, expressed
+as a hexadecimal number.</p>
+<pre>
+md5sum = 32 * hex-digit;
+
+</pre>
+
+<h4>The &lsquo;URL&rsquo; field</h4>
+<p>This contains an absolute or relative URL from which this package can
+downloaded.  If the URL is relative then it is resolved with respect to
+the package index file in which it was specified.</p>
+
+<h4>The &lsquo;Depends&rsquo; field</h4>
+<p>This contains a comma-separated list of other packages which must be
+installed for this one to function:</p>
+<pre>
+depends-list = [ dependency, { [ws], ',', [ws], dependency } ];
+</pre>
+<p>Each dependency consists of a package name followed by an optional
+version predicate:</p>
+<pre>
+dependency = package-name, [ws, version-predicate];
+</pre>
+<p>The version predicate, if present, specifies which versions of the
+package are capable of specifying the dependency:</p>
+<pre>
+version-predicate = '(', [ws], version-relation, [ws], version, [ws], ')';
+
+version-relation = '=' | '&lt;&lt;' | '>>' | '<=' | '>=';
+</pre>
+<p>For example:</p>
+<pre>
+Depends: LibPkg, RTK (>=0.5.0), ZLib
+</pre>
+<p>would cause installation of any version of LibPkg, version 0.5.0 or
+later of the RTK, and any version of ZLib.</p>
+<p>Note the double &lsquo;&lt&rsquo; or &lsquo;>&rsquo; for strictly
+less-than or greater-than (which are required for historical reasons).</p>
+<p>Small reductions in functionality are not significant: the dependency
+must be strong enough that the package is of little use without it.
+For example:</p>
+<ul>
+<li>If an application will not run without a module then it is
+dependent on that module.</li>
+<li>If an application has been split into several packages then
+there will usually be a core package on which the optional packages
+depend.</li>
+</ul>
+<p>However:</p>
+<ul>
+<li>The fact that a package contains HTML documentation, or has a button
+for visiting its upstream website, does not make it dependent on
+WWW-Browser.</li>
+<li>The fact that a graphics application can handle a particular filetype
+when a certain module is present does not make it dependent on that module
+if it can process other filetypes without it.</li>
+</ul>
+
+<h4>The &lsquo;Recommends&rsquo; field</h4>
+<p>This contains a comma-separated list of packages which are usually
+installed alongside this one but are not strictly essential:</p>
+<pre>
+recommends-list = [ dependency, { [ws], ',', [ws], dependency } ];
+</pre>
+<p>For example:</p>
+<ul>
+<li>A documentation package likely to be needed by most users should
+be recommended.</li>
+<li>A documentation package which consists mostly or entirely of HTML
+may recommend WWW-Browser.</li>
+</ul>
+
+<h4>The &lsquo;Suggests&rsquo; field</h4>
+<p>This contains a comma-separated list of packages which the user should
+consider installing alongside this one but could very reasonably decide
+not to:</p>
+<pre>
+suggests-list = [ dependency, { [ws], ',', [ws], dependency } ];
+</pre>
+<p>For example:</p>
+<ul>
+<li>Documentation packages should be suggested if they are not important
+enough to be recommended.</li>
+<li>If a mail user agent is able to make use of an external spell checker,
+but does not depend on it for functions other than spelling, then a
+suitable spell checker should be suggested.</li>
+</ul>
+
+<h4>The &lsquo;Conflicts&rsquo; field</h4>
+<p>This contains a comma-separated list of packages which cannot be
+installed at the same time as this one:</p>
+<pre>
+conflicts-list = [ dependency, { [ws], ',', [ws], dependency } ];
+</pre>
+<p>In most cases this will be because the packages install a file in the
+same place.  For example:</p>
+<ul>
+<li>If two modules have the same name and neither can be renamed then
+they will conflict.</li>
+</ul>
+<p>However:</p>
+<ul>
+<li>The fact that two applications cannot be run at the same time does
+not imply that they conflict.</li>
+<li>The fact that no user is likely to want both packages installed at
+the same time does not imply that they conflict.</li>
+</ul>
+<p>Do not declare a conflict without first investigating whether it
+can be avoided.</p>
+
+<h3>The Copyright file</h3>
+<p>Every package shall contain a text file named <code>Copyright</code>
+in its <code>RiscPkg</code> directory.  No specific structure is required,
+but it must contain the following information:</p>
+<ul>
+<li>the name of the upstream author(s);</li>
+<li>the names of current and past package maintainers;</li>
+<li>the provenance of the upstream sources; and</li>
+<li>a verbatim copy of the copyright notice and distribution licence</li>
+</ul>
+<p>(Note that without a distribution licence it is highly unlikely that
+a package can be distributed.)</p>
+
+<h3>Versions</h3>
+<h4>Structure</h4>
+<p>Versions have three components:</p>
+<ul>
+<li>the epoch;</li>
+<li>the upstream version;</li>
+<li>the package version.</li>
+</ul>
+<pre>
+version = [epoch, ':'], upstream-version, ['-', package-version];
+
+epoch = {digit};
+
+upstream-version = {letter | digit | '+' | '-' | '.' | ':'};
+
+package-version = {letter | digit | '+' | '.' | ':'};
+
+</pre>
+<p>Only the upstream version is required.  This should match the version
+of the upstream project if there is one.  (Upstream is the source from
+which the software was obtained for packaging.)  For example, if you are
+packaging the version of Nettle released as &lsquo;0.2040r&rsquo; by the
+Nettle Developers then the upstream version would be
+&lsquo;0.2040r&rsquo;.</p>
+<p>If there is more than one level of upstream development, you should
+typically choose the furthest upstream version consistent with the name of
+the package.  For example, if you are packaging version 2.95.4 release 3
+of the RISC&nbsp;OS GCCSDK and the package is named GCC, the upstream
+version would be 2.95.4 and the release number would become part of the
+package version.  However, if the package has instead been named GCCSDK
+then the upstream version would be 2.95.4r3.</p>
+<p>Changes can be made to avoid illegal characters or ensure that the sort
+order is correct.  Some common cases are described below.</p>
+<p>The package version allowes for the possibility that a given upstream
+version will be packaged (or ported) more than once.  Typically it should
+start at zero each time the upstream version changes and increment each
+time there is no change.  A more complex scheme can be used if it is
+considered useful.</p>
+<p>The epoch allows for major changes (or mistakes) in the numbering scheme
+which would otherwise disrupt the sort order.  It should notionally begin
+at zero, then increment each time the upstream version needs to move
+backwards.  While the epoch is equal to zero it should be omitted entirely.
+</p>
+<p>Changes to the epoch should be rare and unplanned events.  If the
+upstream version scheme makes epoch changes inevitable then it must
+be modified to prevent this happening.</p>
+
+<h4>The sort order</h4>
+<p>The epoch is the most significant component, followed by the upstream
+version then the package version.</p>
+<p>Components are compared by dividing them into an alternating sequence
+of numeric and non-numeric sections.  The first section is defined to
+be non-numeric (so will be empty if the component begins with a digit).</p>
+<p>Non-numeric sections are compared lexicographically, using ASCII
+values modified so that letters sort earlier than non-letters.  Numeric
+sections are compared numerically.  If a numeric section is empty then
+it is taken to be equal to zero.</p>
+<p>Sections are compared from left to right until a difference is found
+or until both components are exhausted.</p>
+<blockquote>
+<p>(This sort order is intended to be the same as that specified in
+version 3.5.6.1 of the Debian Policy Manual.  If any difference is found
+between dpkg, RiscPkg or the two policy manuals it should be reported as
+a bug.)</p>
+</blockquote>
+
+<h4>Ensuring the sort order</h4>
+<p>If the upstream version incorporates a date then the year must
+precede the month and the month must precede the day.  Formats with a
+suitable sort order include &lsquo;1999.9.27&rsquo;,
+&lsquo;1999.09.27&rsquo; and &lsquo;19990927&rsquo;.</p>
+<p>If the upstream version contains a suffix such as &lsquo;-pre2&rsquo;,
+&lsquo;-test5&rsquo; or &lsquo;-rc12&rsquo; then this may be moved out
+of the upstream version and appended to the package version.  It will
+then have no effect on the sort order (because the remainder of the
+package version will always take precedence) while remaining visible
+to the end user.</p>
+<blockquote>
+<p>If the suffix remains attached to the upstream version then it is
+not possible to remove the suffix when a final release is available
+without disrupting the sort order.  This can lead the user to believe
+that the package is less mature than is actually the case.</p>
+</blockquote>
+
+<h3>File attributes</h3>
+<p>Each files in a binary package must have a RISC&nbsp;OS extra
+information field.</p>
+<blockquote>
+<p>This specifies the file type, timestamp and file attributes.  It has
+a zip file tag of 0x4341.  Most zip file compressors written for or
+ported to RISC&nbsp;OS provide this field automatically.  Those intended
+for other operating systems more likely do not.</p>
+</blockquote>
+<p>File attributes should be set to <code>LR/r</code> for static files
+and either <code>WR/wr</code> or (preferably) <code>WR/r</code> for
+variable files.  Packages should not assume that the attributes are set
+to these values when the files are installed.</p>
+<blockquote>
+<p>The purpose of this rule is not to force any particular attribute
+policy on the installed files, but rather to ensure that the package
+manager is aware of what permissions are needed for the system to
+function correctly.  If the user wants all files to be writable then
+it is a straightforward matter for the package manager to force the
+attributes to <code>WR/wr</code> during installation, whereas it would
+not be able to do the opposite.</p>
+<p>It has not been decided how the package manager will distinguish
+between files which should disappear when a package is removed and files
+which should remain until it is purged, however it is possible that file
+attributes will be used for this purpose.</p>
+</blockquote>
+
+<h2>System variables</h2>
+<h3>Ownership and definition</h3>
+<p>A package may claim ownership of a system variable by including a
+file named after the variable in its <code>SysVars</code> subdirectory.
+An escape mechanism is provided to allow for characters which have
+special meanings in RISC&nbsp;OS pathnames.  To use it, replace the
+character with an equals-sign followed by a two-digit hexadecimal
+character code.</p>
+The following characters (and no others) must be escaped:
+&lsquo;.&rsquo; (full-stop),
+&lsquo;:&rsquo; (colon),
+&lsquo;$&rsquo; (dollar-sign),
+&lsquo;&amp;&rsquo; (ampersand),
+&lsquo;@&rsquo; (at-sign),
+&lsquo;^&rsquo; (caret),
+&lsquo;%&rsquo; (percent-sign),
+&lsquo;\&rsquo; (backslash) and
+&lsquo;=&rsquo; (equals-sign).</p>
+<p>The following filetypes are allowed:</p>
+<table border="1">
+<tr>
+<th>Filetype</th>
+<th>Content</th>
+</tr>
+<tr>
+<td>Text</td>
+<td>A parsed string with which to initialise the system variable.</td>
+</tr>
+<tr>
+<td>Data</td>
+<td>An unparsed string with which to initialise the system variable.</td>
+</tr>
+</table>
+<p>All other filetypes are reserved for future use.  If a string is parsed
+then this is done by <code>OS_GSTrans</code> or an equivalent, with the
+addition of support for logical pathname references (as described below).</p>
+<p>Note that this mechanism does <i>not</i> replace the need to set system variables in <code>!Boot</code> and <code>!Run</code> files.</p>
+
+<h3>Use of <code>Run$Path</code></h3>
+<p>Packages should not change <code>Run$Path</code> simply because
+they provide one or more command line programs.  Aliases of the form
+<code>Alias$command</code> should be used instead.</p>
+<blockquote>
+<p>The <code>Run$Path</code> would soon become very long if every
+command line program were to extend it.  This would make the system less
+efficient and could eventually break it.</p>
+</blockquote>
+
+<h2>Desktop applications</h2>
+<h3>The <code>!Boot</code> file</h3>
+<p>The <code>!Boot</code> file must be idempotent (meaning that the result
+after executing it twice is the same as the result after executing it once.)
+</p>
+<p>The actions performed by a <code>!Boot</code> file should be limited
+to the following:</p>
+<ul>
+<li>Setting system variables;</li>
+<li>Loading sprites into the wimp sprite pool.</li>
+</ul>
+<p>System variables with previously set values should not be altered.</p>
+<blockquote>
+<p>Ideally the <code>!Boot</code> file would not replace existing sprites
+either, but it is not obvious how this could be easily achieved.</p>
+</blockquote>
+
+<h3>The <code>!Run</code> file</h3>
+<p>If the application needs a system variable to be set to a particular
+value then the <code>!Run</code> file should forcibly set that
+variable to the appropriate value.</p>
+<blockquote>
+<p>For example, most applications use a variable of the form
+<code>App$Dir</code> to access support files within their application
+directories.  Ideally applications should not clash &mdash; but if they
+do then the correct behavior is to use the value appropriate to the
+application that is currently running.  The variable is not intended to
+be user-configurable, so this action is unlikely to override a value set
+by the user.</p>
+</blockquote>
+<p>If the application needs a system variable to be set to a meaningful
+value, but there is more than one value to which it could usefully be set,
+then the <code>!Run</code> should provide a reasonable default but
+should not overwrite an existing value.</p>
+<blockquote>
+<p>This allows configuration to be performed by setting system
+variables at boot time, as opposed to editing the <code>!Run</code>
+file.  The latter method is undesirable (a) because the <code>!Run</code>
+may be shared between several users or machines, (b) because the
+application directory cannot be made read-only, and (c) because
+the system variable cannot be shared between applications.</p>
+</blockquote>
+
+<h2>Sprites</h2>
+<h3>Sprite declarations</h3>
+<p>The package manager has the ability to load sprites into the Wimp sprite
+pool at boot time.  For this to happen the sprite must be declared.  A
+package can do this by placing a file named after the sprite in its
+<code>Sprites</code> directory.</p>
+<p>At present the file must be a text file, in which case it contains the
+pathname of the sprite file that contains the sprite.  The pathname is parsed
+using <code>OS_GSTrans</code> or an equivalent, with the addition of
+support for logical pathname references (as described below).</p>
+<p>Only one sprite may be specified per declaration, however any number of
+declarations may refer to a single sprite file.</p>
+
+<h3>Sprite resolution</h3>
+<p>The sprite file identified by the pathname should be one that is
+suitable for use as an argument to the <code>IconSprites</code> command.
+If higher-resolution versions of this file are present then they will be
+recognised automatically by the package manager, provided that the
+conventional suffixes are used.  For example, if a package provides
+sprite files called <code>!Sprites</code>, <code>!Sprites22</code> and
+<code>!Sprites11</code> then declarations should refer to the first of
+these only, but one of the others will be used if it is a better match to
+the screen mode.</p>
+
+<h2>Command line programs</h2>
+<p>The preferred method for distributing command line programs is to
+encapsulate each one within a separate application directory, then
+set an alias of the form <code>Alias$command</code> to make the program
+available from the command line.</p>
+<blockquote>
+<p>The alternative of placing all command line programs in a central
+location would work acceptably for stand-alone executables, but provides
+nowhere for supporting documentation and other files to be located.  Use
+of an application directory was thought to be more in keeping with the
+RISC OS tradition of keeping associated files together where possible.</p>
+</blockquote>
+<p>Where there would be no advantage in a command having its own graphical
+front end, it is permissible for it to share an application directory with
+other programs.</p>
+<p>At its simplest, the application directory would contain
+<code>!Boot</code> and <code>!Run</code> files to set system variables, a
+<code>!Sprites</code> file to provide an icon, the executable itself, and
+documentation within or referenced by a <code>!Help</code> file.  Other
+files may be added as required.</p>
+<p>Provision of files for use by the FrontEnd module is encouraged.  Provided
+they are reasonably small (as is likely to be the case) they can be bundled
+into the same package as the executable.  More elaborate graphical front ends
+should in most cases be packaged separately.</p>
+
+<h2>Logical Pathname References</h2>
+<p>When specifying the content of a system variable or the location of a
+sprite file it may be necessary to translate a logical pathname to a physical
+pathname.  This is done using an extension of the syntax implemented by
+<code>OS_GSTrans</code>:</p>
+<pre>
+logical-pathname-reference = '&lt;', package-name, '$', '@', logical-pathname, '&gt;';
+
+</pre>
+<p>For example, the logical path <code>Apps.Admin.!RiscPkg</code> within
+the package <code>RiscPkg</code> would be expressed as:</p>
+<pre>
+&lt;RiscPkg$@Apps.Admin.!RiscPkg&gt;
+
+</pre>
+<p>Only pathnames can be processed in this way.  If a path is required then
+the trailing period must be placed outside the logical path reference:</p>
+<pre>
+&lt;RiscPkg$@Apps.Admin.!RiscPkg&gt;.
+
+</pre>
+
+<h2>Acknowledgements</h2>
+<p>Significant aspects of this policy manual are based on the
+Debian Policy Manual, written by Ian Jackson and Christian Schwarz.</p>
+
+<h2>Copyright</h2>
+<p>This manual is part of the RISC OS Packaging Project.</p>
+<p>Copyright &copy; 2004-2006 Graham Shaw.</p>
+<p>Distribution and use are subject to the GNU General Public License,
+as published by the Free Software Foundation.</p>
+</body>
+</html>
