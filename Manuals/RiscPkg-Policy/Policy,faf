@@ -103,6 +103,12 @@ are stored when no other location (such as an application directory) is
 more appropriate.</td>
 </tr>
 <tr>
+<td><code>Resources</code></td>
+<td>Optional</td>
+<td>A directory which corresponds to the active <code>Resources</code>
+directory.</td>
+</tr>
+<tr>
 <td><code>Sprites</code></td>
 <td>Optional</td>
 <td>A directory which contains sprite declarations.</td>
