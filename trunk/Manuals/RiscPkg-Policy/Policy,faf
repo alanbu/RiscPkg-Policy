@@ -414,10 +414,6 @@ following section names:</p>
 <td>Packages which do not readily fit into any other section.</td>
 </tr>
 <tr>
-<td>Module</td>
-<td>RISC&nbsp;OS modules</td>
-</tr>
-<tr>
 <td>Programming</td>
 <td>Programming tools (including compilers and interpreters but
 excluding libraries).</td>
