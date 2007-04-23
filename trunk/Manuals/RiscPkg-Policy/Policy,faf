@@ -402,24 +402,138 @@ following section names:</p>
 <th>Content</th>
 </tr>
 <tr>
-<td>Admin</td>
+<td>Administration</td>
 <td>System administration tools</td>
 </tr>
 <tr>
+<td>Archive</td>
+<td>Programs for archiving or compressing data</td>
+</tr>
+<tr>
+<td>Audio</td>
+<td>Programs which operate on sound recordings or music scores</td>
+</tr>
+<tr>
+<td>Chat</td>
+<td>Programs for chat or instant messaging (including protocols such as
+IRC and ICQ)</td>
+</tr>
+<tr>
+<td>Communication</td>
+<td>Communication programs (excluding those which relate to networks)</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>Databases (both general-purpose and application-specific)</td>
+</tr>
+<tr>
+<td>Demo</td>
+<td>Demonstration programs</td>
+</tr>
+<tr>
+<td>Desktop</td>
+<td>Programs which relate to the mechanics of the desktop</td>
+</tr>
+<tr>
+<td>Development</td>
+<td>Software development tools (including compilers and interpreters but
+excluding libraries)</td>
+</tr>
+<tr>
+<td>Device</td>
+<td>Device drivers and control software</td>
+</tr>
+<tr>
+<td>Disc</td>
+<td>Programs which operate on discs or filing systems</td>
+</tr>
+<tr>
+<td>Document</td>
+<td>Programs for creating, editing and processing documents (including
+wordprocessors and desktop publishing programs)</td>
+</tr>
+<tr>
+<td>File</td>
+<td>Programs which operate on individual files or groups of files</td>
+</tr>
+<tr>
+<td>Education</td>
+<td>Educational programs</td>
+</tr>
+<tr>
+<td>Emulation</td>
+<td>Emulators for other machines or operating systems</td>
+</tr>
+<tr>
+<td>Font</td>
+<td>Fonts and programs which operate on fonts</td>
+</tr>
+<tr>
+<td>Games</td>
+<td>Computer games</td>
+</tr>
+<tr>
+<td>Graphics</td>
+<td>Programs which operate on still images (vector or bitmap)</td>
+</tr>
+<tr>
 <td>Library</td>
-<td>Libraries for any programming language.</td>
+<td>Libraries (for any programming language)</td>
 </tr>
 <tr>
-<td>Misc</td>
-<td>Packages which do not readily fit into any other section.</td>
+<td>Mail</td>
+<td>Programs which process electronic mail or news messages</td>
 </tr>
 <tr>
-<td>Programming</td>
-<td>Programming tools (including compilers and interpreters but
-excluding libraries).</td>
+<td>Mathematics</td>
+<td>Mathematical programs (excluding educational ones)</td>
+</tr>
+<tr>
+<td>Miscellaneous</td>
+<td>Packages which do not readily fit into any other section</td>
+</tr>
+<tr>
+<td>Network</td>
+<td>Programs for managing or using computer networks (including both
+Internet and non-Internet protocols)</td>
+</td>
+<tr>
+<td>Presentation</td>
+<td>Programs for editing and viewing presentations</td>
+</tr>
+<tr>
+<td>Printing</td>
+<td>Packages which are part of or relate to the printing system</td>
+</tr>
+<tr>
+<td>Spreadsheet</td>
+<td>Programs which operate on spreadsheets</td>
+</tr>
+<tr>
+<td>System</td>
+<td>Packages which are part of or relate to the core operating system</td>
+</tr>
+<tr>
+<td>Text</td>
+<td>Programs which operate on text files (including plain text
+and generic structured formats such as CSV and XML)</td>
+</tr>
+<tr>
+<td>Video</td>
+<td>Programs which operate on moving images (vector or bitmap, with
+or without sound)</td>
+</tr>
+<tr>
+<td>Web</td>
+<td>Programs which operate on HTML and related data types (including
+XHTML but excluding generic XML)</td>
 </tr>
 </table>
 
+<p>Where reference is made to programs this should be taken to include
+files of any type which would be used in conjunction with such programs.
+A more specific section (such as Mail) should normally take precedence
+over a less specific one (such as Communication).</p>
 <p>It is likely that additional sections will be defined in the future.
 The &lsquo;Misc&rsquo; section is available for packages which would
 otherwise be difficult to classify.  A package may move from one section
