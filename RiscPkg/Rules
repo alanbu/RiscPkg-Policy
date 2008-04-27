@@ -7,7 +7,7 @@ pkg:
 	cp RiscPkg/Copyright Temp/RiscPkg/
 	cp -r Manuals Temp/
 
-	chmod -R 444 Temp/Manuals
+	chmod -R =rX Temp/Manuals
 	make -C Temp -f ../RiscPkg/Rules $(PACKAGES)
 	rm -rf Temp
 
