@@ -605,9 +605,9 @@ to the package declaring the dependency.</p>
 
 <h4>The &lsquo;Licence&rsquo; field</h4>
 <p>This provides information about how the package is licenced.
-It consists of a whitespace-separated list of licence tags.</p>
+It consists of a comma-separated list of licence tags.</p>
 <pre>
-licence = licence-tag, {ws, licence-tag};
+licence = licence-tag, {',', licence-tag};
 
 </pre>
 
