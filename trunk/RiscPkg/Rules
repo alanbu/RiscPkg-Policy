@@ -20,4 +20,4 @@ pkg:
 $(PACKAGES): %:
 	riscpkg-gencontrol $(firstword $(subst _, ,$@)) < ../RiscPkg/Control > RiscPkg/Control
 	rm -f ../RiscPkg/$@
-	zip -r ../RiscPkg/$@ * -i@../RiscPkg/$(firstword $(subst _, ,$@)).inc
+	zip -r -, ../RiscPkg/$@ * -i@../RiscPkg/$(firstword $(subst _, ,$@)).inc
