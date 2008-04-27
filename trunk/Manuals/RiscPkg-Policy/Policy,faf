@@ -1211,6 +1211,196 @@ the trailing period must be placed outside the logical path reference:</p>
 
 </pre>
 
+<h2>Build Environment</h2>
+<h3>Introduction</h3>
+<p>The build environment is the set of tools, libraries and other resources
+that are external but available to a source package while it is being built.
+There are two parts to the build environment:</p>
+<ul>
+<li>resources which the source package has explicitly declared as
+build-time dependencies;</li>
+<li>resources which are presumed to be available by default so need not
+be explicitly declared.</li>
+</ul>
+<p>The latter category is provided so that it is not necessary for large
+numbers of source packages to declare their need for basic facilities such
+as Make or GCC.  Binary packages which provide such resources are described
+as &lsquo;build-essential&rsqup;.</p>
+<p>Two different build platforms are defined, RISC&nbsp;OS and POSIX, and
+there are differences between them.  Ideally source packages should be
+written so that they can be compiled on either, however it is recognised
+that this is impractical in many cases.</p>
+
+<h3>Build-essential packages</h3>
+<p>The following packages (or their equivalents) are build-essential when
+using RISC&nbspOS as the build platform:</p>
+
+<table border="1">
+<tr>
+<th>Name</th>
+<th>Version</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>DiffUtils</td>
+<td>2.7</td>
+<td>A set of tools for comparing files</td>
+</tr>
+<tr>
+<td>DRLink</td>
+<td>0.44</td>
+<td>AOF linker</td>
+</tr>
+<tr>
+<td>FixDeps</td>
+<td>1.0.2</td>
+<td>A filter for processing makefile dependencies</td>
+</tr>
+<tr>
+<td>FileUtils</td>
+<td>4.1</td>
+<td>GNU file management utilities</td>
+</tr>
+<tr>
+<td>G++</td>
+<td>3.4</td>
+<td>The GNU Compiler Collection (C++ compiler)</td>
+</tr>
+<tr>
+<td>GCC</td>
+<td>3.4</td>
+<td>The GNU Compiler Collection (C compiler)</td>
+</tr>
+<tr>
+<td>Ld-GCCSDK</td>
+<td>0.44</td>
+<td>A GNU-compatible front-end for Link or DRLink</td>
+</tr>
+<tr>
+<td>LibFile</td>
+<td>1.01</td>
+<td>ALF creation and maintenance tool</td>
+</tr>
+<tr>
+<td>Make</td>
+<td>3.80</td>
+<td>The GNU Project implementation of Make</td>
+</tr>
+<tr>
+<td>Patch</td>
+<td>2.5.4</td>
+<td>A tool for applying diff files</td>
+</tr>
+<tr>
+<td>Perl</td>
+<td>5.8.8</td>
+<td>The Perl programming language interpreter</td>
+</tr>
+<tr>
+<td>RiscPkg-GenControl</td>
+<td>0.0.0</td>
+<td>Binary control file generator for RiscPkg packages</td>
+</tr>
+<tr>
+<td>Sed</td>
+<td>4.0.9</td>
+<td>The GNU stream editor</td>
+</tr>
+<tr>
+<td>UnixLib-Dev</td>
+<td>4.6</td>
+<td>A C run-time library for RISC OS</td>
+</tr>
+<tr>
+<td>Unzip</td>
+<td>5.52</td>
+<td>A decompressor/dearchiver for zipfiles</td>
+</tr>
+<tr>
+<td>Zip</td>
+<td>2.3</td>
+<td>A compressor/archiver for creating and modifying zipfiles</td>
+</tr>
+<tr>
+<td>UUDecode</td>
+<td>4.2.1</td>
+<td>UU and base-64 file decoder</td>
+</tr>
+<tr>
+<td>UUEncode</td>
+<td>4.2.1</td>
+<td>UU and base-64 file encoder</td>
+</tr>
+</table>
+
+<p>When using a POSIX-based system as the build platform, equivalent
+functionality should be provided, typically by installing GCCSDK,
+with the exception of FixDeps.  (The functionality of FixDeps can be
+achieved using Sed on a POSIX-based system.)</p>
+
+<p>The versions specified are the minimum allowed.  Higher versions may
+be used provided that they are fully backwards-compatible.  The method
+of installation for this software is unspecified: it is not necessary
+to use RiscPkg (although it would be sensible to do so where the build
+platform is RISC&nbsp;OS and the necessary packages are available.)</p>
+
+<p>Source packages should not attempt to test whether they are being
+built on RISC&nbsp;OS or POSIX; instead, they should determine whether
+the build platform provides the specific feature that is required.</p>
+
+<p>It is not necessary to write fully portable makefiles, as you can
+assume that Make will be compatible with the GNU Project version.</p>
+
+<h3>Environment Variables</h3>
+<p>The following environment variables may/shall be set by the autobuilder
+before invoking the Rules file of a source package:</p>
+
+<table border="1">
+<tr>
+<td>RISCPKG_BUILD_GNU_CPU_FAMILY</td>
+<td>Required</td>
+<td>The name used by the GNU toolchain to identify the target CPU family
+(currently always &lsquo;arm&rsquo;).</td>
+</tr>
+<tr>
+<td>RISCPKG_BUILD_GNU_CPU_TYPE</td>
+<td>Required</td>
+<td>The name used by the GNU toolchain to identify the specific target CPU
+(for example &lsquo;strongarm&rsquo; or &lsquo;xscale&rsquo;), or undefined
+to indicate that the compiler defaults should be used.</td>
+</tr>
+<tr>
+<td>CPPFLAGS</td>
+<td>Optional</td>
+<td>Flags to be passed to the C preprocessor.</td>
+</tr>
+<tr>
+<td>CFLAGS</td>
+<td>Optional</td>
+<td>Flags to be passed to the C compiler.  These will include instances of
+&lsquo;mtune&rsquo; and &lsquo;mcpu&rsquo; if appropriate.</td>
+</tr>
+<tr>
+<td>CXXFLAGS</td>
+<td>Optional</td>
+<td>Flags to be passed to the C++ compiler.  These will include instances of
+&lsquo;mtune&rsquo; and &lsquo;mcpu&rsquo; if appropriate.</td>
+</tr>
+<tr>
+<td>LDFLAGS</td>
+<td>Optional</td>
+<td>Flags to be passed to the linker.</td>
+</tr>
+</table>
+
+<h3>Bugs</h3>
+<p>If you encounter a bug in a package on which you depend, either at
+run-time or build-time, then you should either wait for the bug to be fixed
+or put in place a workaround that allows the package to be built with or
+without a fix.  Do not install a workaround which is likely to break when
+the bug is corrected, as this will unnecessarily complicate the process of
+fixing it.</p>
+
 <h2>Acknowledgements</h2>
 <p>Significant aspects of this policy manual are based on the
 Debian Policy Manual, written by Ian Jackson and Christian Schwarz.</p>
