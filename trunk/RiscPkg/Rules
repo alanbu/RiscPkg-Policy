@@ -9,6 +9,7 @@ pkg:
 
 	chmod -R =rX Temp/Manuals
 	make -C Temp -f ../RiscPkg/Rules $(PACKAGES)
+	chmod -R =rwX Temp/Manuals
 	rm -rf Temp
 
 .PHONY: clean
