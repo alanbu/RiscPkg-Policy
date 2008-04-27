@@ -89,6 +89,13 @@ and its relationship to other packages.</td>
 owns the copyright, and how it is licenced.</td>
 </tr>
 <tr>
+<td><code>RiscPkg.CrossPaths</code></td>
+<td>Optional</td>
+<td>A file containing a list of translation rules which identify files
+to be made available to the cross compiler and specify where they are
+to be installed.</td>
+</tr>
+<tr>
 <td><code>Apps</code></td>
 <td>Optional</td>
 <td>The root of the hierarchy within which applications are stored.
@@ -792,6 +799,50 @@ but it must contain the following information:</p>
 </ul>
 <p>(Note that without a distribution licence it is highly unlikely that
 a package can be distributed.)</p>
+
+<h3>The CrossPaths file</h3>
+<p>The package file format is primarily designed for installing software
+on RISC&nbsp;OS machines, however in some cases there is also a need to
+make it available to a cross-compiler running on a POSIX-based operating
+system.  This is done by including a CrossPaths file in the RiscPkg
+directory of the relevant binary package.</p>
+
+<p>Each line within the file consists of two pathnames separated by
+whitespace.  The first is a logical pathname which identifies a file
+or set of files in the binary package which are to be copied.  The
+second pathname specifies where those files are to be placed.  It too
+is a logical pathname, but using a different set of conventions that
+are better suited to the way files are organised on a POSIX system.
+The following paths are defined:</p>
+
+<table border="1">
+<tr>
+<td><code>include</code></td>
+<td>A location that the cross-compiler will search for header files.</td>
+</tr>
+<tr>
+<td><code>lib</code></td>
+<td>A location that the cross-compiler will search for libraries.</td>
+</tr>
+</table>
+
+<p>Wildcard variables may be used to copy many files with a single rule.
+These consist of a percentage sign followed by a decimal digit, and
+match any sequence of zero or more characters within a single pathname
+component (but not sequences which span multiple components).  The
+variable should appear in both the source or the destination path.
+Wildcards can be used to translate between RISC&nbsp;OS and POSIX-style
+naming conventions, for example:</p>
+
+<pre>
+Apps/Library/!LibPkg/libpkg/h/%1 include/%1.h
+Apps/Library/!LibPkg/a/%1 lib/%1.a
+</pre>
+
+<p>You should include a CrossPaths file within any binary package that
+contains files which could potentially be needed by the cross-compiler,
+whether or not that package is itself capable of being built using the
+cross-compiler.</p>
 
 <h3>Versions</h3>
 <h4>Structure</h4>
