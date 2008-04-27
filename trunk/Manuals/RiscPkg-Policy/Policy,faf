@@ -298,6 +298,14 @@ located in a control file or an index file:</p>
 <td>The name and e-mail address of the maintainer</td>
 </tr>
 <tr>
+<td>Autobuild</td>
+<td>Optional</td>
+<td>&mdash;</td>
+<td>No</td>
+<td>The platform or platforms on which this package can be built
+automatically</td>
+</tr>
+<tr>
 <td>Standards-Version</td>
 <td>Required</td>
 <td>Required</td>
@@ -641,6 +649,28 @@ at the time it was issued.</p>
 maintainer = real-name, '<', email-address, '>';
 
 </pre>
+
+<h4>The &lsquo;Autobuild&rsquo; field</h4>
+<p>This is a comma-separated list of platforms which are, or should be,
+able to autobuild this package:</p>
+<pre>
+autobuild-list = autobuilt-platform, { [ws], ',', [ws], autobuild-platform };
+
+autobuild-platform = 'RISCOS' | 'POSIX';
+</pre>
+
+<p>The characteristics of these platforms are described below as part
+of the build environment.</p>
+
+<p>The list of platforms is nominally considered to be in order of
+preference, however this order may and probably will be overridden by
+the autobuilder software to take account of efficiency and availability.
+If there is a clear technical reason (other than speed of compilation)
+why the package should be built on one platform rather than another
+then you should omit the platforms you wish to avoid.</p>
+
+<p>If the autobuild field is omitted then this currently indicates that
+the package is not suitable for autobuilding on any platform.</p>
 
 <h4>The &lsquo;Standards-Version&rsquo; field</h4>
 <p>This identifies the most recent version of the policy manual to
