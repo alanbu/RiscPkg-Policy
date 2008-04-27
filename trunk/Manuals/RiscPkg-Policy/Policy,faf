@@ -176,13 +176,16 @@ owns the copyright, and how it is licenced.</td>
 </tr>
 <tr>
 <td><code>RiscPkg.Rules</code></td>
-<td>Optional</td>
+<td>Required</td>
 <td>The top-level makefile for building the binary package(s).</td>
 </tr>
 </table>
-<p>The file <code>RiscPkg.Rules</code> will be required (and its
-behaviour specified) when some of the outstanding toolchain issues have
-been resolved.</p>
+<p>Although the <code>RiscPkg.Rules</code> file is stated to be required,
+it is currently permissible to omit this file if the source package exists
+only to comply with licensing requirements and is not intended to be
+automatically buildable.  However inclusion of a <code>Rules</code> file
+is recommended, even if its only purpose is to take a set of pre-compiled
+binaries and place them in a package file.</p>
 
 <h3>Control records</h3>
 <h4>Introduction</h4>
@@ -799,6 +802,67 @@ but it must contain the following information:</p>
 </ul>
 <p>(Note that without a distribution licence it is highly unlikely that
 a package can be distributed.)</p>
+
+<h3>The Rules file</h3>
+<h4>Introduction</h4>
+<p>Every source package should contain a makefile called
+<code>RiscPkg.Rules</code> containing instructions for building the
+corresponding binary package(s).  These should be placed in the
+<code>RiscPkg</code> directory and have names of the form:</p>
+<pre>
+binary-leafname = binary-package-name, '_', version-number;
+</pre>
+<p>for example <code>LibPkg-Dev_0/2/1</code> (on a RISC&nbsp;OS machine)
+or <code>LibPkg-Dev_0.2.1</code> (on a POSIX machine).<p>
+
+<p>All binary packages are to be built when the makefile is invoked with
+no target or with the target &lsquo;all&rsquo;.  (Typically this would
+be achieved by making &lsquo;all&rsquo; the default target.)<p>
+
+<p>The <code>Rules</code> file should assume that the current working
+directory is at the root of an unpacked copy of the source package.
+Typically the command that invokes it will be of the form:</p>
+<pre>
+make -C &lt;source-package-root&gt; -f RiscPkg/Rules
+</pre>
+
+<p>It may also assume that it has ownership of all files and directories
+at or below this root, and that any file permissions are no more restrictive
+than the following:</p>
+
+<table border="1">
+<tr>
+<th>Filesystem</th>
+<th>File permissions</th>
+<th>Directory permission</th>
+</tr>
+<td>AFS</td>
+<td>rlidwk</td>
+<td>rlidwk</td>
+</tr>
+<tr>
+<td>RISC&nbsp;OS</td>
+<td>WR/</td>
+<td>WR/</td>
+</tr>
+<tr>
+<td>POSIX</td>
+<td>044</td>
+<td>055</td>
+</tr>
+</table>
+
+<p>It is recommended that the Rules file seek to avoid altering any file
+that is part of the supplied source package, in order to avoid creating
+differences which might be inadvertently checked back in to the revision
+control system; however it is recognised that this may not always be
+practicable when packaging software that was created by a third party.</p>
+
+<p>The Rules file must not attempt to read or modify any file or directory
+outside the root of the supplied source package, unless it is either
+(a) a defined part of the build environment or (b) a file made available
+by a build-time dependency, in which case it may read from the file but
+not alter it.</p>
 
 <h3>The CrossPaths file</h3>
 <p>The package file format is primarily designed for installing software
