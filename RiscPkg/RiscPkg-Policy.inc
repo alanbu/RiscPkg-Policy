@@ -1,2 +1,2 @@
 RiscPkg/*
-Manuals/*
+Manuals/RiscPkg-Policy/[^.]*
