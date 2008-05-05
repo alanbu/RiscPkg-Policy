@@ -1,0 +1,23 @@
+VERSION = 0.1.1.0
+PACKAGES = RiscPkg-Policy_$(VERSION)
+
+pkg:
+	rm -rf Temp
+	mkdir -p Temp/RiscPkg
+	cp RiscPkg/Copyright Temp/RiscPkg/
+	cp -r Manuals Temp/
+
+	chmod -R =rX Temp/Manuals
+	make -C Temp -f ../RiscPkg/Rules $(PACKAGES)
+	chmod -R =rwX Temp/Manuals
+	rm -rf Temp
+
+.PHONY: clean
+
+.PHONY: distclean
+
+.PHONY: $(PACKAGES)
+$(PACKAGES): %:
+	riscpkg-gencontrol $(firstword $(subst _, ,$@)) < ../RiscPkg/Control > RiscPkg/Control
+	rm -f ../RiscPkg/$@
+	zip -r -, ../RiscPkg/$@ * -i@../RiscPkg/$(firstword $(subst _, ,$@)).inc

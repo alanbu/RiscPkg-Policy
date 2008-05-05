@@ -1,0 +1,12 @@
+This is part of the RISC OS Packaging Project policy manual package.
+
+The policy manual was written by Graham Shaw.
+
+Significant aspects are based on the Debian Policy Manual, written by
+Ian Jackson and Christian Schwarz.
+
+From the text of the manual:
+== begin ==
+Distribution and use are subject to the GNU General Public License,
+as published by the Free Software Foundation.
+== end ==
