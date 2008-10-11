@@ -951,9 +951,9 @@ version = [epoch, ':'], upstream-version, ['-', package-version];
 
 epoch = {digit};
 
-upstream-version = {letter | digit | '+' | '-' | '.' | ':'};
+upstream-version = {letter | digit | '+' | '-' | '.' | ':' | '~'};
 
-package-version = {letter | digit | '+' | '.' | ':'};
+package-version = {letter | digit | '+' | '.' | ':' | '~'};
 
 </pre>
 <p>Only the upstream version is required.  This should match the version
@@ -991,15 +991,16 @@ version then the package version.</p>
 <p>Components are compared by dividing them into an alternating sequence
 of numeric and non-numeric sections.  The first section is defined to
 be non-numeric (so will be empty if the component begins with a digit).</p>
-<p>Non-numeric sections are compared lexicographically, using ASCII
-values modified so that letters sort earlier than non-letters.  Numeric
-sections are compared numerically.  If a numeric section is empty then
-it is taken to be equal to zero.</p>
+<p>Non-numeric sections are compared lexicographically using ASCII
+values, modified so that letters sort earlier than non-letters, and so
+that the tilde character sorts earlier than anything else (including the
+empty string).  Numeric sections are compared numerically.  If a numeric
+section is empty then it is taken to be equal to zero.</p>
 <p>Sections are compared from left to right until a difference is found
 or until both components are exhausted.</p>
 <blockquote>
 <p>(This sort order is intended to be the same as that specified in
-version 3.5.6.1 of the Debian Policy Manual.  If any difference is found
+version 3.8.0 of the Debian Policy Manual.  If any difference is found
 between dpkg, RiscPkg or the two policy manuals it should be reported as
 a bug.)</p>
 </blockquote>
