@@ -8,7 +8,7 @@
 <body>
 <h1 align="center">RISC OS Packaging Project<br>
 Policy Manual<br>
-Version 0.1.1.0 (5 May 2008)</h1>
+Version 0.2.0.0 (12 October 2008)</h1>
 <h2>Introduction</h2>
 <p>This is the Policy Manual for the RISC&nbsp;OS Packaging Project.  It
 defines the standards which packages are normally expected to meet if they
