@@ -131,6 +131,16 @@ directory.</td>
 <td>A directory which corresponds to the active <code>!System</code>
 directory.</td>
 </tr>
+<tr>
+<td><code>ToBeLoaded</code></td>
+<td>Optional</td>
+<td>A directory which corresponds to a location on the <code>Boot$ToBeLoaded</code> path.</td>
+</tr>
+<tr>
+<td><code>ToBeTasks</code></td>
+<td>Optional</td>
+<td>A directory which corresponds to a location on the <code>Boot$ToBeTasks</code> path.</td>
+</tr>
 </table>
 <p>Each file has an associated logical path (its location within the package
 file) and a physical path (its location when installed).  Only the
