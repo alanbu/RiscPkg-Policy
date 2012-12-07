@@ -8,7 +8,7 @@
 <body>
 <h1 align="center">RISC OS Packaging Project<br>
 Policy Manual<br>
-Version 0.2.0.0 (12 October 2008)</h1>
+Version 0.3.0.0 (7 December 2012)</h1>
 <h2>Introduction</h2>
 <p>This is the Policy Manual for the RISC&nbsp;OS Packaging Project.  It
 defines the standards which packages are normally expected to meet if they
@@ -134,12 +134,50 @@ directory.</td>
 <tr>
 <td><code>ToBeLoaded</code></td>
 <td>Optional</td>
-<td>A directory which corresponds to a location on the <code>Boot$ToBeLoaded</code> path.</td>
+<td>A directory which corresponds to a location on the <code>Boot$ToBeLoaded</code> path
+(or <code>Boot$Default$ToBeLoaded</code> path on RISC OS 6).</td>
 </tr>
 <tr>
 <td><code>ToBeTasks</code></td>
 <td>Optional</td>
-<td>A directory which corresponds to a location on the <code>Boot$ToBeTasks</code> path.</td>
+<td>A directory which corresponds to a location on the <code>Boot$ToBeTasks</code> path
+(or <code>Boot$Default$ToBeTasks</code> path on RISC OS 6)</td>
+</tr>
+<tr>
+<td><code>Boot</code></td>
+<td>Optional</td>
+<td>A directory which corresponds to the <code>!Boot</code> directory.
+It is recommended that this directory is used for OS updates only.</td>
+</tr>
+<td><code>Bootloader</code></td>
+<td>Optional</td>
+<td>A directory which corresponds to the SD card system image for the
+Raspberry Pi (<code>!Boot.Loader</code>). This is for system updates
+provided by RISC OS Open only.</td>
+</tr>
+<tr>
+<td><code>Printing</code></td>
+<td>Optional</td>
+<td>A directory which corresponds to the <code>Printing</code> directory.
+This is usually used for installation of components for the RISC OS
+printing system.</td>
+</tr>
+<tr>
+<td><code>Utilities</code></td>
+<td>Optional</td>
+<td>A directory which corresponds to the <code>Utilities</code> directory.
+This is used for Utilities installed with the RISC OS HardDisc image.
+<code>Apps.Utilities</code> should be used in preference where possible.</td>
+</tr>
+<tr>
+<td><code>!Boot</code></td>
+<td>Optional</td>
+<td>An alias for the <code>Boot</code> path above.</td>
+</tr>
+<tr>
+<td><code>!System</code></td>
+<td>Optional</td>
+<td>An alias for the <code>System</code> path above.</td>
 </tr>
 </table>
 <p>Each file has an associated logical path (its location within the package
