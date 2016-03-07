@@ -59,8 +59,7 @@ repeated zero or more times.</li>
 <li>a semicolon (<code>';'</code>) indicates the end of a production.</li>
 </ul>
 <p>The meta-identifer <code>ws</code> indicates whitespace:</p>
-<pre>
-ws = ws-character, {ws-character};
+<pre>ws = ws-character, {ws-character};
 
 ws-character = space-character | newline-character;
 
@@ -71,7 +70,7 @@ ws-character = space-character | newline-character;
 <p>A binary package consists of a zip file containing some or all of
 the following files and directories:</p>
 <table border="1">
-<tr>
+<tbody><tr>
 <td><code>RiscPkg</code></td>
 <td>Required</td>
 <td>A directory which contains information about the package.</td>
@@ -149,7 +148,7 @@ directory.</td>
 <td>A directory which corresponds to the <code>!Boot</code> directory.
 It is recommended that this directory is used for OS updates only.</td>
 </tr>
-<td><code>Bootloader</code></td>
+<tr><td><code>Bootloader</code></td>
 <td>Optional</td>
 <td>A directory which corresponds to the SD card system image for the
 Raspberry Pi (<code>!Boot.Loader</code>). This is for system updates
@@ -179,14 +178,14 @@ This is used for Utilities installed with the RISC OS HardDisc image.
 <td>Optional</td>
 <td>An alias for the <code>System</code> path above.</td>
 </tr>
-</table>
+</tbody></table>
 <p>Each file has an associated logical path (its location within the package
 file) and a physical path (its location when installed).  Only the
 logical path is specified within the package file.  The package manager
 (on behalf of the user) is responsible for translating logical paths into
 physical paths, and it has considerable freedom as to how it does this.
 The only rule is that the translation must be reasonable.  For example:
-<ul>
+</p><ul>
 <li>it is reasonable for the user to place modules in any directory of
 his choosing, provided they can then be accessed through the
 <code>System$Path</code>.</li>
@@ -205,7 +204,7 @@ to that variable is sufficient to meet this requirement.)</p>
 <p>A source package consists of a zip file which includes the following
 files:</p>
 <table border="1">
-<tr>
+<tbody><tr>
 <td><code>RiscPkg</code></td>
 <td>Required</td>
 <td>A directory which contains information about the package.</td>
@@ -227,7 +226,7 @@ owns the copyright, and how it is licenced.</td>
 <td>Required</td>
 <td>The top-level makefile for building the binary package(s).</td>
 </tr>
-</table>
+</tbody></table>
 <p>Although the <code>RiscPkg.Rules</code> file is stated to be required,
 it is currently permissible to omit this file if the source package exists
 only to comply with licensing requirements and is not intended to be
@@ -243,7 +242,7 @@ record (source and binary) and two types of file in which they can appear
 (package control files and package index files):</p>
 
 <table border="1">
-<tr>
+<tbody><tr>
 <th>File</th>
 <th>Content</th>
 </tr>
@@ -264,7 +263,7 @@ resulting binary package</td>
 <td>Source index file</td>
 <td>One source control record for each source package</td>
 </tr>
-</table>
+</tbody></table>
 
 <p>Package index files list all of the packages that make up a particular
 distribution, and are the only information available to the package manager
@@ -275,18 +274,15 @@ records they are guaranteed to exist whether or not the package is part of
 a distribution and whether or not it has been superceded by a new version.
 </p>
 <p>Each control record consists of a sequence of control fields:</p>
-<pre>
-control-record = control-field, {control-field};
+<pre>control-record = control-field, {control-field};
 </pre>
 <p>and each field consists of a name and a value, optionally followed by
 a number of continuation lines:</p>
-<pre>
-control-field = control-field-name, ':', space-character,
+<pre>control-field = control-field-name, ':', space-character,
   control-field-value, newline, {continuation-line};
 </pre>
 <p>For example:</p>
-<pre>
-Package: RiscPkg
+<pre>Package: RiscPkg
 Priority: Required
 Section: Admin
 Version: 0.2.0
@@ -296,7 +292,7 @@ on whether it is a source or binary control record, and whether it is
 located in a control file or an index file:</p>
 
 <table border="1">
-<tr>
+<tbody><tr>
 <th>Name</th>
 <th>Source</th>
 <th>Binary</th>
@@ -423,7 +419,7 @@ automatically</td>
 <td>No</td>
 <td>A brief description and a long description of this package</td>
 </tr>
-</table>
+</tbody></table>
 
 <p>Field names are not case-sensitive, however they should normally be
 capitalised as in the table above.  They must begin at the start of a line
@@ -434,15 +430,13 @@ the end of the file.</p>
 These begin with a space (which is automatically removed by the parser).
 If a blank line is required as part of the value, it is written as a
 space followed by a period (also removed by the parser):</p>
-<pre>
-continuation-line = space, (control-field-value | '.'), newline;
+<pre>continuation-line = space, (control-field-value | '.'), newline;
 </pre>
 <blockquote><p>(The space serves to distinguish a continuation line from
 the start of a new field.  The dot serves to distinguish an otherwise empty
 continuation line from the end of the control record.)</p></blockquote>
 <p>For example:</p>
-<pre>
-Package: RiscPkg
+<pre>Package: RiscPkg
 Priority: Required
 Section: Admin
 Version: 0.2.0
@@ -463,7 +457,7 @@ Description: A package manager for RISC OS
 following section names:</p>
 
 <table border="1">
-<tr>
+<tbody><tr>
 <th>Section</th>
 <th>Content</th>
 </tr>
@@ -562,8 +556,8 @@ wordprocessors and desktop publishing programs)</td>
 <td>Network</td>
 <td>Programs for managing or using computer networks (including both
 Internet and non-Internet protocols)</td>
-</td>
-<tr>
+
+</tr><tr>
 <td>Presentation</td>
 <td>Programs for editing and viewing presentations</td>
 </tr>
@@ -594,7 +588,7 @@ or without sound)</td>
 <td>Programs which operate on HTML and related data types (including
 XHTML but excluding generic XML)</td>
 </tr>
-</table>
+</tbody></table>
 
 <p>Where reference is made to programs this should be taken to include
 files of any type which would be used in conjunction with such programs.
@@ -611,7 +605,7 @@ package if they have not explicitly asked for it.  It contains one of
 the following priority levels:</p>
 
 <table border="1">
-<tr>
+<tbody><tr>
 <th>Priority</th>
 <th>Meaning</th>
 </tr>
@@ -643,7 +637,7 @@ without regard for disc space or installation time.  (Example: GCC.)</td>
 <td>Packages which have a very narrow audience, or which conflict with
 other packages of higher priority.  (Example: LibPkg.)</td>
 </tr>
-</table>
+</tbody></table>
 <p>Packages are assumed to be optional unless there is a specific reason
 why they should have a higher or lower priority.  A consensus should be
 reached before choosing a priority higher than optional unless there are
@@ -654,13 +648,12 @@ to the package declaring the dependency.</p>
 <h4>The &lsquo;Licence&rsquo; field</h4>
 <p>This provides information about how the package is licenced.
 It consists of a comma-separated list of licence tags.</p>
-<pre>
-licence = licence-tag, {',', licence-tag};
+<pre>licence = licence-tag, {',', licence-tag};
 
 </pre>
 
 <table border="1">
-<tr>
+<tbody><tr>
 <th>Tag</th>
 <th>Definition</th>
 </tr>
@@ -675,7 +668,7 @@ Open Source Definition</a>, as defined by the
 <td>Non-free</td>
 <td>Packages that do not meet the Open Source Definition</td>
 </tr>
-</table>
+</tbody></table>
 
 <p>Additional licence tags may be defined in the future.  Unrecognised
 tags should be ignored.  The tag list must be complete with respect to
@@ -693,16 +686,14 @@ must specify exactly one licence tag.</p>
 <h4>The &lsquo;Maintainer&rsquo; field</h4>
 <p>This identifies the package maintainer responsible for the package
 at the time it was issued.</p>
-<pre>
-maintainer = real-name, '<', email-address, '>';
+<pre>maintainer = real-name, '&lt;', email-address, '&gt;';
 
 </pre>
 
 <h4>The &lsquo;Autobuild&rsquo; field</h4>
 <p>This is a comma-separated list of platforms which are, or should be,
 able to autobuild this package:</p>
-<pre>
-autobuild-list = autobuilt-platform, { [ws], ',', [ws], autobuild-platform };
+<pre>autobuild-list = autobuilt-platform, { [ws], ',', [ws], autobuild-platform };
 
 autobuild-platform = 'RISCOS' | 'POSIX';
 </pre>
@@ -752,16 +743,14 @@ upgraded, otherwise that upgrade will not be offered to the user.</p>
 <h4>The &lsquo;Size&rsquo; field</h4>
 <p>This contains the size of the package file, expressed as a decimal
 number of bytes.</p>
-<pre>
-size = digit, {digit};
+<pre>size = digit, {digit};
 
 </pre>
 
 <h4>The &lsquo;MD5Sum&rsquo; field</h4>
 <p>This contains the MD5 message digest of the package file, expressed
 as a hexadecimal number.</p>
-<pre>
-md5sum = 32 * hex-digit;
+<pre>md5sum = 32 * hex-digit;
 
 </pre>
 
@@ -773,28 +762,24 @@ the package index file in which it was specified.</p>
 <h4>The &lsquo;Depends&rsquo; field</h4>
 <p>This contains a comma-separated list of other packages which must be
 installed for this one to function:</p>
-<pre>
-depends-list = [ dependency, { [ws], ',', [ws], dependency } ];
+<pre>depends-list = [ dependency, { [ws], ',', [ws], dependency } ];
 </pre>
 <p>Each dependency consists of a package name followed by an optional
 version predicate:</p>
-<pre>
-dependency = package-name, [ws, version-predicate];
+<pre>dependency = package-name, [ws, version-predicate];
 </pre>
 <p>The version predicate, if present, specifies which versions of the
 package are capable of specifying the dependency:</p>
-<pre>
-version-predicate = '(', [ws], version-relation, [ws], version, [ws], ')';
+<pre>version-predicate = '(', [ws], version-relation, [ws], version, [ws], ')';
 
-version-relation = '=' | '&lt;&lt;' | '>>' | '<=' | '>=';
+version-relation = '=' | '&lt;&lt;' | '&gt;&gt;' | '&lt;=' | '&gt;=';
 </pre>
 <p>For example:</p>
-<pre>
-Depends: LibPkg, RTK (>=0.5.0), ZLib
+<pre>Depends: LibPkg, RTK (&gt;=0.5.0), ZLib
 </pre>
 <p>would cause installation of any version of LibPkg, version 0.5.0 or
 later of the RTK, and any version of ZLib.</p>
-<p>Note the double &lsquo;&lt&rsquo; or &lsquo;>&rsquo; for strictly
+<p>Note the double &lsquo;&lt;&rsquo; or &lsquo;&gt;&rsquo; for strictly
 less-than or greater-than (which are required for historical reasons).</p>
 <p>Small reductions in functionality are not significant: the dependency
 must be strong enough that the package is of little use without it.
@@ -819,8 +804,7 @@ if it can process other filetypes without it.</li>
 <h4>The &lsquo;Recommends&rsquo; field</h4>
 <p>This contains a comma-separated list of packages which are usually
 installed alongside this one but are not strictly essential:</p>
-<pre>
-recommends-list = [ dependency, { [ws], ',', [ws], dependency } ];
+<pre>recommends-list = [ dependency, { [ws], ',', [ws], dependency } ];
 </pre>
 <p>For example:</p>
 <ul>
@@ -834,8 +818,7 @@ may recommend WWW-Browser.</li>
 <p>This contains a comma-separated list of packages which the user should
 consider installing alongside this one but could very reasonably decide
 not to:</p>
-<pre>
-suggests-list = [ dependency, { [ws], ',', [ws], dependency } ];
+<pre>suggests-list = [ dependency, { [ws], ',', [ws], dependency } ];
 </pre>
 <p>For example:</p>
 <ul>
@@ -849,8 +832,7 @@ suitable spell checker should be suggested.</li>
 <h4>The &lsquo;Conflicts&rsquo; field</h4>
 <p>This contains a comma-separated list of packages which cannot be
 installed at the same time as this one:</p>
-<pre>
-conflicts-list = [ dependency, { [ws], ',', [ws], dependency } ];
+<pre>conflicts-list = [ dependency, { [ws], ',', [ws], dependency } ];
 </pre>
 <p>In most cases this will be because the packages install a file in the
 same place.  For example:</p>
@@ -887,21 +869,19 @@ a package can be distributed.)</p>
 <code>RiscPkg.Rules</code> containing instructions for building the
 corresponding binary package(s).  These should be placed in the
 <code>RiscPkg</code> directory and have names of the form:</p>
-<pre>
-binary-leafname = binary-package-name, '_', version-number;
+<pre>binary-leafname = binary-package-name, '_', version-number;
 </pre>
 <p>for example <code>LibPkg-Dev_0/2/1</code> (on a RISC&nbsp;OS machine)
-or <code>LibPkg-Dev_0.2.1</code> (on a POSIX machine).<p>
+or <code>LibPkg-Dev_0.2.1</code> (on a POSIX machine).</p><p>
 
-<p>All binary packages are to be built when the makefile is invoked with
+</p><p>All binary packages are to be built when the makefile is invoked with
 no target or with the target &lsquo;all&rsquo;.  (Typically this would
-be achieved by making &lsquo;all&rsquo; the default target.)<p>
+be achieved by making &lsquo;all&rsquo; the default target.)</p><p>
 
-<p>The <code>Rules</code> file should assume that the current working
+</p><p>The <code>Rules</code> file should assume that the current working
 directory is at the root of an unpacked copy of the source package.
 Typically the command that invokes it will be of the form:</p>
-<pre>
-make -C &lt;source-package-root&gt; -f RiscPkg/Rules
+<pre>make -C &lt;source-package-root&gt; -f RiscPkg/Rules
 </pre>
 
 <p>It may also assume that it has ownership of all files and directories
@@ -909,12 +889,12 @@ at or below this root, and that any file permissions are no more restrictive
 than the following:</p>
 
 <table border="1">
-<tr>
+<tbody><tr>
 <th>Filesystem</th>
 <th>File permissions</th>
 <th>Directory permission</th>
 </tr>
-<td>AFS</td>
+<tr><td>AFS</td>
 <td>rlidwk</td>
 <td>rlidwk</td>
 </tr>
@@ -928,7 +908,7 @@ than the following:</p>
 <td>044</td>
 <td>055</td>
 </tr>
-</table>
+</tbody></table>
 
 <p>It is recommended that the Rules file seek to avoid altering any file
 that is part of the supplied source package, in order to avoid creating
@@ -958,7 +938,7 @@ are better suited to the way files are organised on a POSIX system.
 The following paths are defined:</p>
 
 <table border="1">
-<tr>
+<tbody><tr>
 <td><code>include</code></td>
 <td>A location that the cross-compiler will search for header files.</td>
 </tr>
@@ -966,7 +946,7 @@ The following paths are defined:</p>
 <td><code>lib</code></td>
 <td>A location that the cross-compiler will search for libraries.</td>
 </tr>
-</table>
+</tbody></table>
 
 <p>Wildcard variables may be used to copy many files with a single rule.
 These consist of a percentage sign followed by a decimal digit, and
@@ -976,8 +956,7 @@ variable should appear in both the source or the destination path.
 Wildcards can be used to translate between RISC&nbsp;OS and POSIX-style
 naming conventions, for example:</p>
 
-<pre>
-Apps/Library/!LibPkg/libpkg/h/%1 include/%1.h
+<pre>Apps/Library/!LibPkg/libpkg/h/%1 include/%1.h
 Apps/Library/!LibPkg/a/%1 lib/%1.a
 </pre>
 
@@ -994,8 +973,7 @@ cross-compiler.</p>
 <li>the upstream version;</li>
 <li>the package version.</li>
 </ul>
-<pre>
-version = [epoch, ':'], upstream-version, ['-', package-version];
+<pre>version = [epoch, ':'], upstream-version, ['-', package-version];
 
 epoch = {digit};
 
@@ -1115,10 +1093,10 @@ The following characters (and no others) must be escaped:
 &lsquo;^&rsquo; (caret),
 &lsquo;%&rsquo; (percent-sign),
 &lsquo;\&rsquo; (backslash) and
-&lsquo;=&rsquo; (equals-sign).</p>
+&lsquo;=&rsquo; (equals-sign).<p></p>
 <p>The following filetypes are allowed:</p>
 <table border="1">
-<tr>
+<tbody><tr>
 <th>Filetype</th>
 <th>Content</th>
 </tr>
@@ -1130,7 +1108,7 @@ The following characters (and no others) must be escaped:
 <td>Data</td>
 <td>An unparsed string with which to initialise the system variable.</td>
 </tr>
-</table>
+</tbody></table>
 <p>All other filetypes are reserved for future use.  If a string is parsed
 then this is done by <code>OS_GSTrans</code> or an equivalent, with the
 addition of support for logical pathname references (as described below).</p>
@@ -1243,20 +1221,17 @@ should in most cases be packaged separately.</p>
 sprite file it may be necessary to translate a logical pathname to a physical
 pathname.  This is done using an extension of the syntax implemented by
 <code>OS_GSTrans</code>:</p>
-<pre>
-logical-pathname-reference = '&lt;', package-name, '$', '@', logical-pathname, '&gt;';
+<pre>logical-pathname-reference = '&lt;', package-name, '$', '@', logical-pathname, '&gt;';
 
 </pre>
 <p>For example, the logical path <code>Apps.Admin.!RiscPkg</code> within
 the package <code>RiscPkg</code> would be expressed as:</p>
-<pre>
-&lt;RiscPkg$@Apps.Admin.!RiscPkg&gt;
+<pre>&lt;RiscPkg$@Apps.Admin.!RiscPkg&gt;
 
 </pre>
 <p>Only pathnames can be processed in this way.  If a path is required then
 the trailing period must be placed outside the logical path reference:</p>
-<pre>
-&lt;RiscPkg$@Apps.Admin.!RiscPkg&gt;.
+<pre>&lt;RiscPkg$@Apps.Admin.!RiscPkg&gt;.
 
 </pre>
 
@@ -1274,7 +1249,7 @@ be explicitly declared.</li>
 <p>The latter category is provided so that it is not necessary for large
 numbers of source packages to declare their need for basic facilities such
 as Make or GCC.  Binary packages which provide such resources are described
-as &lsquo;build-essential&rsqup;.</p>
+as &lsquo;build-essential&amp;rsqup;.</p>
 <p>Two different build platforms are defined, RISC&nbsp;OS and POSIX, and
 there are differences between them.  Ideally source packages should be
 written so that they can be compiled on either, however it is recognised
@@ -1282,10 +1257,10 @@ that this is impractical in many cases.</p>
 
 <h3>Build-essential packages</h3>
 <p>The following packages (or their equivalents) are build-essential when
-using RISC&nbspOS as the build platform:</p>
+using RISC&nbsp;OS as the build platform:</p>
 
 <table border="1">
-<tr>
+<tbody><tr>
 <th>Name</th>
 <th>Version</th>
 <th>Description</th>
@@ -1380,7 +1355,7 @@ using RISC&nbspOS as the build platform:</p>
 <td>4.2.1</td>
 <td>UU and base-64 file encoder</td>
 </tr>
-</table>
+</tbody></table>
 
 <p>When using a POSIX-based system as the build platform, equivalent
 functionality should be provided, typically by installing GCCSDK,
@@ -1405,7 +1380,7 @@ assume that Make will be compatible with the GNU Project version.</p>
 before invoking the Rules file of a source package:</p>
 
 <table border="1">
-<tr>
+<tbody><tr>
 <td>RISCPKG_BUILD_GNU_CPU_FAMILY</td>
 <td>Required</td>
 <td>The name used by the GNU toolchain to identify the target CPU family
@@ -1440,7 +1415,7 @@ to indicate that the compiler defaults should be used.</td>
 <td>Optional</td>
 <td>Flags to be passed to the linker.</td>
 </tr>
-</table>
+</tbody></table>
 
 <h3>Bugs</h3>
 <p>If you encounter a bug in a package on which you depend, either at
@@ -1459,5 +1434,4 @@ Debian Policy Manual, written by Ian Jackson and Christian Schwarz.</p>
 <p>Copyright &copy; 2004-2006 Graham Shaw.</p>
 <p>Distribution and use are subject to the GNU General Public License,
 as published by the Free Software Foundation.</p>
-</body>
 </html>
