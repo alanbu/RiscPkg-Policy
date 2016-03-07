@@ -8,9 +8,11 @@
 <body>
 <h1 align="center">RISC OS Packaging Project<br>
 Policy Manual<br>
-Version 0.3.0.0 (7 December 2012)</h1>
-<h2>Introduction</h2>
-<p>This is the Policy Manual for the RISC&nbsp;OS Packaging Project.  It
+Version 0.4.0.0 (15 March 2014)</h1>
+</tr>
+<tr>
+<h2><a name="TOC-Introduction"></a>Introduction</h2>
+<p>This is the Policy Manual for the RISC OS Packaging Project.  It
 defines the standards which packages are normally expected to meet if they
 are to be accepted as part of the project.  These include:</p>
 <ul>
@@ -24,11 +26,10 @@ consensus must be reached beforehand if other parts of the project are
 affected.</p>
 <p>These rules do not apply to packages distributed independently of the
 project.</p>
-
-<h2>Aims</h2>
+<h2><a name="TOC-Aims"></a>Aims</h2>
 <p>The aims of the project are:</p>
 <ol>
-<li>to build and distribute a collection of RISC&nbsp;OS software packages;
+<li>to build and distribute a collection of RISC OS software packages;
 </li>
 <li>to provide a convienient mechanism for users to install, update
 and remove packages on their computers;</li>
@@ -39,10 +40,9 @@ and fixing bugs in the package collection;</li>
 <li>to ensure that the legal status of all software in the package collection
 is understood and respected;</li>
 <li>to promote the development of free and open source software for
-RISC&nbsp;OS.</li>
+RISC OS.</li>
 </ol>
-
-<h2>Notation</h2>
+<h2><a name="TOC-Notation"></a>Notation</h2>
 <p>Extended Backus-Naur Form (EBNF) is used to specify the syntax of data
 structures.  A formal description may be found in ISO/IEC 14977.  Briefly:</p>
 <ul>
@@ -64,9 +64,8 @@ repeated zero or more times.</li>
 ws-character = space-character | newline-character;
 
 </pre>
-
-<h2>Package Format</h2>
-<h3>Binary Package Format</h3>
+<h2><a name="TOC-Package-Format"></a>Package Format</h2>
+<h3><a name="TOC-Binary-Package-Format"></a>Binary Package Format</h3>
 <p>A binary package consists of a zip file containing some or all of
 the following files and directories:</p>
 <table border="1">
@@ -117,12 +116,12 @@ directory.</td>
 <tr>
 <td><code>Sprites</code></td>
 <td>Optional</td>
-<td>A directory which contains sprite declarations.</td>
+<td>A directory which contains sprite declarations. This has been deprecated from version 0.4.0.</td>
 </tr>
 <tr>
 <td><code>SysVars</code></td>
 <td>Optional</td>
-<td>A directory which contains system variable definitions.</td>
+<td>A directory which contains system variable definitions. This has been deprecated from version 0.4.0.</td>
 </tr>
 <tr>
 <td><code>System</code></td>
@@ -153,8 +152,7 @@ It is recommended that this directory is used for OS updates only.</td>
 <td>A directory which corresponds to the SD card system image for the
 Raspberry Pi (<code>!Boot.Loader</code>). This is for system updates
 provided by RISC OS Open only.</td>
-</tr>
-<tr>
+</tr><tr>
 <td><code>Printing</code></td>
 <td>Optional</td>
 <td>A directory which corresponds to the <code>Printing</code> directory.
@@ -195,12 +193,10 @@ the application directory to which it belongs.</li>
 <p>Packages are expected to cope with reasonable translations, and should
 not make unnecessary assumptions about where their files have been placed.
 </p>
-
 <p>(For simple desktop applications, the usual practice of defining a system
 variable of the form <code>App$Dir</code> then accessing files with respect
 to that variable is sufficient to meet this requirement.)</p>
-
-<h3>Source Package Format</h3>
+<h3><a name="TOC-Source-Package-Format"></a>Source Package Format</h3>
 <p>A source package consists of a zip file which includes the following
 files:</p>
 <table border="1">
@@ -233,14 +229,12 @@ only to comply with licensing requirements and is not intended to be
 automatically buildable.  However inclusion of a <code>Rules</code> file
 is recommended, even if its only purpose is to take a set of pre-compiled
 binaries and place them in a package file.</p>
-
-<h3>Control records</h3>
-<h4>Introduction</h4>
+<h3><a name="TOC-Control-records"></a>Control records</h3>
+<h4><a name="TOC-Introduction1"></a>Introduction</h4>
 <p>A control record is a structure used to record information about a
 package for use by the package manager.  There are two types of control
 record (source and binary) and two types of file in which they can appear
 (package control files and package index files):</p>
-
 <table border="1">
 <tbody><tr>
 <th>File</th>
@@ -264,7 +258,6 @@ resulting binary package</td>
 <td>One source control record for each source package</td>
 </tr>
 </tbody></table>
-
 <p>Package index files list all of the packages that make up a particular
 distribution, and are the only information available to the package manager
 (or the user) when deciding which packages to download.  Package control
@@ -290,7 +283,6 @@ Version: 0.2.0
 <p>The fields that are allowed or required in a given control record depend
 on whether it is a source or binary control record, and whether it is
 located in a control file or an index file:</p>
-
 <table border="1">
 <tbody><tr>
 <th>Name</th>
@@ -419,8 +411,14 @@ automatically</td>
 <td>No</td>
 <td>A brief description and a long description of this package</td>
 </tr>
-</tbody></table>
-
+<tr>
+<td>Components</td>
+<td>&mdash;</td>
+<td>Optional</td>
+<td>No</td>
+<td>A list of logical paths to components that may want to be moved
+or added to the boot options</td>
+</tr></tbody></table>
 <p>Field names are not case-sensitive, however they should normally be
 capitalised as in the table above.  They must begin at the start of a line
 and be followed by a colon and a space.</p>
@@ -451,11 +449,9 @@ Description: A package manager for RISC OS
  automatically but is no longer needed, it is removed.
 
 </pre>
-
-<h4>The &lsquo;Section&rsquo; field</h4>
+<h4><a name="TOC-The-Section-field"></a>The 'Section' field</h4>
 <p>This indicates the purpose of the package.  It contains one of the
 following section names:</p>
-
 <table border="1">
 <tbody><tr>
 <th>Section</th>
@@ -556,7 +552,6 @@ wordprocessors and desktop publishing programs)</td>
 <td>Network</td>
 <td>Programs for managing or using computer networks (including both
 Internet and non-Internet protocols)</td>
-
 </tr><tr>
 <td>Presentation</td>
 <td>Programs for editing and viewing presentations</td>
@@ -589,21 +584,18 @@ or without sound)</td>
 XHTML but excluding generic XML)</td>
 </tr>
 </tbody></table>
-
 <p>Where reference is made to programs this should be taken to include
 files of any type which would be used in conjunction with such programs.
 A more specific section (such as Mail) should normally take precedence
 over a less specific one (such as Communication).</p>
 <p>It is likely that additional sections will be defined in the future.
-The &lsquo;Misc&rsquo; section is available for packages which would
+The 'Misc' section is available for packages which would
 otherwise be difficult to classify.  A package may move from one section
 to another whenever its version number changes.</p>
-
-<h4>The &lsquo;Priority&rsquo; field</h4>
+<h4><a name="TOC-The-Priority-field"></a>The 'Priority' field</h4>
 <p>This indicates how likely it is that a typical user will want the
 package if they have not explicitly asked for it.  It contains one of
 the following priority levels:</p>
-
 <table border="1">
 <tbody><tr>
 <th>Priority</th>
@@ -617,12 +609,12 @@ manager) to function correctly.  (Example: RiscPkg.)</td>
 <tr>
 <td>Important</td>
 <td>Packages which a user could reasonably expect to be present on
-any RISC&nbsp;OS system.  (Example: SysLog.)</td>
+any RISC OS system.  (Example: SysLog.)</td>
 </tr>
 <tr>
 <td>Standard</td>
 <td>Default packages for a typical user.  These should provide a reasonably
-small but not too limited RISC&nbsp;OS system.  Users will normally need to
+small but not too limited RISC OS system.  Users will normally need to
 add to this selection to meet their specific requirements, but should find
 that many of the smaller and more generic applications they want are already
 present.  (Example: Nettle.)</td>
@@ -644,14 +636,12 @@ reached before choosing a priority higher than optional unless there are
 clear technical reasons why that priority is necessary or appropriate.</p>
 <p>A package declared as a dependency must be of equal or higher priority
 to the package declaring the dependency.</p>
-
-<h4>The &lsquo;Licence&rsquo; field</h4>
+<h4><a name="TOC-The-Licence-field"></a>The 'Licence' field</h4>
 <p>This provides information about how the package is licenced.
 It consists of a comma-separated list of licence tags.</p>
 <pre>licence = licence-tag, {',', licence-tag};
 
 </pre>
-
 <table border="1">
 <tbody><tr>
 <th>Tag</th>
@@ -660,16 +650,15 @@ It consists of a comma-separated list of licence tags.</p>
 <tr>
 <td>Free</td>
 <td>Packages that meet the
-<a href="http://www.opensource.org/docs/definition.php">
+<a href="http://www.opensource.org/docs/definition.php" rel="nofollow">
 Open Source Definition</a>, as defined by the
-<a href="http://www.opensource.org/">Open Source Institute</a></td>
+<a href="http://www.opensource.org/" rel="nofollow">Open Source Institute</a></td>
 </tr>
 <tr>
 <td>Non-free</td>
 <td>Packages that do not meet the Open Source Definition</td>
 </tr>
 </tbody></table>
-
 <p>Additional licence tags may be defined in the future.  Unrecognised
 tags should be ignored.  The tag list must be complete with respect to
 the declared standards-version; however, the fact that a tag is absent
@@ -682,36 +671,30 @@ of the licence must be followed.</p>
 <p>Since only two tags are available at present and they are exact
 opposites, it follows that packages working to this version of policy
 must specify exactly one licence tag.</p>
-
-<h4>The &lsquo;Maintainer&rsquo; field</h4>
+<h4><a name="TOC-The-Maintainer-field"></a>The 'Maintainer' field</h4>
 <p>This identifies the package maintainer responsible for the package
 at the time it was issued.</p>
 <pre>maintainer = real-name, '&lt;', email-address, '&gt;';
 
 </pre>
-
-<h4>The &lsquo;Autobuild&rsquo; field</h4>
+<h4><a name="TOC-The-Autobuild-field"></a>The 'Autobuild' field</h4>
 <p>This is a comma-separated list of platforms which are, or should be,
 able to autobuild this package:</p>
 <pre>autobuild-list = autobuilt-platform, { [ws], ',', [ws], autobuild-platform };
 
 autobuild-platform = 'RISCOS' | 'POSIX';
 </pre>
-
 <p>The characteristics of these platforms are described below as part
 of the build environment.</p>
-
 <p>The list of platforms is nominally considered to be in order of
 preference, however this order may and probably will be overridden by
 the autobuilder software to take account of efficiency and availability.
 If there is a clear technical reason (other than speed of compilation)
 why the package should be built on one platform rather than another
 then you should omit the platforms you wish to avoid.</p>
-
 <p>If the autobuild field is omitted then this currently indicates that
 the package is not suitable for autobuilding on any platform.</p>
-
-<h4>The &lsquo;Standards-Version&rsquo; field</h4>
+<h4><a name="TOC-The-Standards-Version-field"></a>The 'Standards-Version' field</h4>
 <p>This identifies the most recent version of the policy manual to
 which the package is thought to comply.  There are four numeric
 components to this version, representing (from left to right):</p>
@@ -728,38 +711,33 @@ between packages and the package manager.</li>
 it is sufficient to specify the first three components in the
 standards-version field.</p>
 <p>For example, if the latest version of the policy manual is
-&lsquo;0.1.2.3&rsquo; and a package complies with that version, the
+'0.1.2.3' and a package complies with that version, the
 standards-version field of the package should be set to
-&lsquo;0.1.2&rsquo;.</p>
+'0.1.2'.</p>
 <p>Intentional non-compliance may be disregarded provided it does not
 affect how the package manager should process the package.</p>
-
-<h4>The &lsquo;Version&rsquo; field</h4>
+<h4><a name="TOC-The-Version-field"></a>The 'Version' field</h4>
 <p>This contains the package version.  It must increase (with respect
 to the sort order defined below) whenever the content of a package is
 upgraded, otherwise that upgrade will not be offered to the user.</p>
 <p>Versions are discussed in detail in a separate section below.</p>
-
-<h4>The &lsquo;Size&rsquo; field</h4>
+<h4><a name="TOC-The-Size-field"></a>The 'Size' field</h4>
 <p>This contains the size of the package file, expressed as a decimal
 number of bytes.</p>
 <pre>size = digit, {digit};
 
 </pre>
-
-<h4>The &lsquo;MD5Sum&rsquo; field</h4>
+<h4><a name="TOC-The-MD5Sum-field"></a>The 'MD5Sum' field</h4>
 <p>This contains the MD5 message digest of the package file, expressed
 as a hexadecimal number.</p>
 <pre>md5sum = 32 * hex-digit;
 
 </pre>
-
-<h4>The &lsquo;URL&rsquo; field</h4>
+<h4><a name="TOC-The-URL-field"></a>The 'URL' field</h4>
 <p>This contains an absolute or relative URL from which this package can
 downloaded.  If the URL is relative then it is resolved with respect to
 the package index file in which it was specified.</p>
-
-<h4>The &lsquo;Depends&rsquo; field</h4>
+<h4><a name="TOC-The-Depends-field"></a>The 'Depends' field</h4>
 <p>This contains a comma-separated list of other packages which must be
 installed for this one to function:</p>
 <pre>depends-list = [ dependency, { [ws], ',', [ws], dependency } ];
@@ -779,7 +757,7 @@ version-relation = '=' | '&lt;&lt;' | '&gt;&gt;' | '&lt;=' | '&gt;=';
 </pre>
 <p>would cause installation of any version of LibPkg, version 0.5.0 or
 later of the RTK, and any version of ZLib.</p>
-<p>Note the double &lsquo;&lt;&rsquo; or &lsquo;&gt;&rsquo; for strictly
+<p>Note the double '&amp;lt' or '&gt;' for strictly
 less-than or greater-than (which are required for historical reasons).</p>
 <p>Small reductions in functionality are not significant: the dependency
 must be strong enough that the package is of little use without it.
@@ -800,8 +778,7 @@ WWW-Browser.</li>
 when a certain module is present does not make it dependent on that module
 if it can process other filetypes without it.</li>
 </ul>
-
-<h4>The &lsquo;Recommends&rsquo; field</h4>
+<h4><a name="TOC-The-Recommends-field"></a>The 'Recommends' field</h4>
 <p>This contains a comma-separated list of packages which are usually
 installed alongside this one but are not strictly essential:</p>
 <pre>recommends-list = [ dependency, { [ws], ',', [ws], dependency } ];
@@ -813,8 +790,7 @@ be recommended.</li>
 <li>A documentation package which consists mostly or entirely of HTML
 may recommend WWW-Browser.</li>
 </ul>
-
-<h4>The &lsquo;Suggests&rsquo; field</h4>
+<h4><a name="TOC-The-Suggests-field"></a>The 'Suggests' field</h4>
 <p>This contains a comma-separated list of packages which the user should
 consider installing alongside this one but could very reasonably decide
 not to:</p>
@@ -828,8 +804,7 @@ enough to be recommended.</li>
 but does not depend on it for functions other than spelling, then a
 suitable spell checker should be suggested.</li>
 </ul>
-
-<h4>The &lsquo;Conflicts&rsquo; field</h4>
+<h4><a name="TOC-The-Conflicts-field"></a>The 'Conflicts' field</h4>
 <p>This contains a comma-separated list of packages which cannot be
 installed at the same time as this one:</p>
 <pre>conflicts-list = [ dependency, { [ws], ',', [ws], dependency } ];
@@ -849,8 +824,46 @@ the same time does not imply that they conflict.</li>
 </ul>
 <p>Do not declare a conflict without first investigating whether it
 can be avoided.</p>
-
-<h3>The Copyright file</h3>
+<h4><a name="TOC-The-Components-field"></a>The 'Components' field</h4>
+<p>This contains a comma-separated list of the components that have extra
+configuration options:</p>
+<pre>components-list = [ component-details, { [ws], ',', [ws], component-details } ]
+</pre>
+<p>The component-details consists of the the component logical file/folder name
+and its options:</p>
+<pre>component-details = file-name, [ws], component_options ;
+component-options = '(', { [ws], component_option {[ws] ' ' component-option } ,[ws], ')'
+component-option = 'Movable' , 'LookAt', 'Run', 'AddToApps';
+</pre>
+<p>The options are all defaults that the user may override when they
+install the package.</p>
+<ul>
+<li>'Movable' means that this component can be installed to
+a different location or moved after install.</li>
+<li>'LookAt' means that this component suggests that it will
+be looked at on booting. i.e. It is added to the !Boot options 'Look At' list.
+At install time the user will be able to override this suggestion.
+As a guideline this flag should only be set for components that can be
+launched by double clicking on a file type or command line utilities.</li>
+<li>'Run' means that this component will be run when the
+RISC OS desktop is next started</li>
+<li>'AddToApps' means that this component will be added
+to the 'Apps' folder that is available from the RISC OS
+Iconbar</li>
+</ul>
+<p>For example:</p>
+<pre>Components: Apps.Development.!PackIt (Moveable,LookAt)
+</pre>
+<p>Packages with the Standards-Version set to 0.4.0 or later will assume
+that if the Components field is NOT set there are no movable components
+in the Package</p>
+<p>It is expected the use of the Components field replaces the SysVars
+and Sprites package control folders. If the package requires system variables and sprites to be loaded you would normally specify the LookAt
+option so the application is booted when the desktop is started. It is suggested
+that if the component isn't providing command line utilities
+or support for a file type that SysVars and Sprites are just
+removed and the LookAt option is not set.</p>
+<h3><a name="TOC-The-Copyright-file"></a>The Copyright file</h3>
 <p>Every package shall contain a text file named <code>Copyright</code>
 in its <code>RiscPkg</code> directory.  No specific structure is required,
 but it must contain the following information:</p>
@@ -862,32 +875,27 @@ but it must contain the following information:</p>
 </ul>
 <p>(Note that without a distribution licence it is highly unlikely that
 a package can be distributed.)</p>
-
-<h3>The Rules file</h3>
-<h4>Introduction</h4>
+<h3><a name="TOC-The-Rules-file"></a>The Rules file</h3>
+<h4><a name="TOC-Introduction2"></a>Introduction</h4>
 <p>Every source package should contain a makefile called
 <code>RiscPkg.Rules</code> containing instructions for building the
 corresponding binary package(s).  These should be placed in the
 <code>RiscPkg</code> directory and have names of the form:</p>
 <pre>binary-leafname = binary-package-name, '_', version-number;
 </pre>
-<p>for example <code>LibPkg-Dev_0/2/1</code> (on a RISC&nbsp;OS machine)
+<p>for example <code>LibPkg-Dev_0/2/1</code> (on a RISC OS machine)
 or <code>LibPkg-Dev_0.2.1</code> (on a POSIX machine).</p><p>
-
 </p><p>All binary packages are to be built when the makefile is invoked with
-no target or with the target &lsquo;all&rsquo;.  (Typically this would
-be achieved by making &lsquo;all&rsquo; the default target.)</p><p>
-
+no target or with the target 'all'.  (Typically this would
+be achieved by making 'all' the default target.)</p><p>
 </p><p>The <code>Rules</code> file should assume that the current working
 directory is at the root of an unpacked copy of the source package.
 Typically the command that invokes it will be of the form:</p>
 <pre>make -C &lt;source-package-root&gt; -f RiscPkg/Rules
 </pre>
-
 <p>It may also assume that it has ownership of all files and directories
 at or below this root, and that any file permissions are no more restrictive
 than the following:</p>
-
 <table border="1">
 <tbody><tr>
 <th>Filesystem</th>
@@ -897,9 +905,8 @@ than the following:</p>
 <tr><td>AFS</td>
 <td>rlidwk</td>
 <td>rlidwk</td>
-</tr>
-<tr>
-<td>RISC&nbsp;OS</td>
+</tr><tr>
+<td>RISC OS</td>
 <td>WR/</td>
 <td>WR/</td>
 </tr>
@@ -909,26 +916,22 @@ than the following:</p>
 <td>055</td>
 </tr>
 </tbody></table>
-
 <p>It is recommended that the Rules file seek to avoid altering any file
 that is part of the supplied source package, in order to avoid creating
 differences which might be inadvertently checked back in to the revision
 control system; however it is recognised that this may not always be
 practicable when packaging software that was created by a third party.</p>
-
 <p>The Rules file must not attempt to read or modify any file or directory
 outside the root of the supplied source package, unless it is either
 (a) a defined part of the build environment or (b) a file made available
 by a build-time dependency, in which case it may read from the file but
 not alter it.</p>
-
-<h3>The CrossPaths file</h3>
+<h3><a name="TOC-The-CrossPaths-file"></a>The CrossPaths file</h3>
 <p>The package file format is primarily designed for installing software
-on RISC&nbsp;OS machines, however in some cases there is also a need to
+on RISC OS machines, however in some cases there is also a need to
 make it available to a cross-compiler running on a POSIX-based operating
 system.  This is done by including a CrossPaths file in the RiscPkg
 directory of the relevant binary package.</p>
-
 <p>Each line within the file consists of two pathnames separated by
 whitespace.  The first is a logical pathname which identifies a file
 or set of files in the binary package which are to be copied.  The
@@ -936,7 +939,6 @@ second pathname specifies where those files are to be placed.  It too
 is a logical pathname, but using a different set of conventions that
 are better suited to the way files are organised on a POSIX system.
 The following paths are defined:</p>
-
 <table border="1">
 <tbody><tr>
 <td><code>include</code></td>
@@ -947,26 +949,22 @@ The following paths are defined:</p>
 <td>A location that the cross-compiler will search for libraries.</td>
 </tr>
 </tbody></table>
-
 <p>Wildcard variables may be used to copy many files with a single rule.
 These consist of a percentage sign followed by a decimal digit, and
 match any sequence of zero or more characters within a single pathname
 component (but not sequences which span multiple components).  The
 variable should appear in both the source or the destination path.
-Wildcards can be used to translate between RISC&nbsp;OS and POSIX-style
+Wildcards can be used to translate between RISC OS and POSIX-style
 naming conventions, for example:</p>
-
 <pre>Apps/Library/!LibPkg/libpkg/h/%1 include/%1.h
 Apps/Library/!LibPkg/a/%1 lib/%1.a
 </pre>
-
 <p>You should include a CrossPaths file within any binary package that
 contains files which could potentially be needed by the cross-compiler,
 whether or not that package is itself capable of being built using the
 cross-compiler.</p>
-
-<h3>Versions</h3>
-<h4>Structure</h4>
+<h3><a name="TOC-Versions"></a>Versions</h3>
+<h4><a name="TOC-Structure"></a>Structure</h4>
 <p>Versions have three components:</p>
 <ul>
 <li>the epoch;</li>
@@ -985,13 +983,13 @@ package-version = {letter | digit | '+' | '.' | ':' | '~'};
 <p>Only the upstream version is required.  This should match the version
 of the upstream project if there is one.  (Upstream is the source from
 which the software was obtained for packaging.)  For example, if you are
-packaging the version of Nettle released as &lsquo;0.2040r&rsquo; by the
+packaging the version of Nettle released as '0.2040r' by the
 Nettle Developers then the upstream version would be
-&lsquo;0.2040r&rsquo;.</p>
+'0.2040r'.</p>
 <p>If there is more than one level of upstream development, you should
 typically choose the furthest upstream version consistent with the name of
 the package.  For example, if you are packaging version 2.95.4 release 3
-of the RISC&nbsp;OS GCCSDK and the package is named GCC, the upstream
+of the RISC OS GCCSDK and the package is named GCC, the upstream
 version would be 2.95.4 and the release number would become part of the
 package version.  However, if the package has instead been named GCCSDK
 then the upstream version would be 2.95.4r3.</p>
@@ -1010,8 +1008,7 @@ backwards.  While the epoch is equal to zero it should be omitted entirely.
 <p>Changes to the epoch should be rare and unplanned events.  If the
 upstream version scheme makes epoch changes inevitable then it must
 be modified to prevent this happening.</p>
-
-<h4>The sort order</h4>
+<h4><a name="TOC-The-sort-order"></a>The sort order</h4>
 <p>The epoch is the most significant component, followed by the upstream
 version then the package version.</p>
 <p>Components are compared by dividing them into an alternating sequence
@@ -1030,14 +1027,13 @@ version 3.8.0 of the Debian Policy Manual.  If any difference is found
 between dpkg, RiscPkg or the two policy manuals it should be reported as
 a bug.)</p>
 </blockquote>
-
-<h4>Ensuring the sort order</h4>
+<h4><a name="TOC-Ensuring-the-sort-order"></a>Ensuring the sort order</h4>
 <p>If the upstream version incorporates a date then the year must
 precede the month and the month must precede the day.  Formats with a
-suitable sort order include &lsquo;1999.9.27&rsquo;,
-&lsquo;1999.09.27&rsquo; and &lsquo;19990927&rsquo;.</p>
-<p>If the upstream version contains a suffix such as &lsquo;-pre2&rsquo;,
-&lsquo;-test5&rsquo; or &lsquo;-rc12&rsquo; then this may be moved out
+suitable sort order include '1999.9.27',
+'1999.09.27' and '19990927'.</p>
+<p>If the upstream version contains a suffix such as '-pre2',
+'-test5' or '-rc12' then this may be moved out
 of the upstream version and appended to the package version.  It will
 then have no effect on the sort order (because the remainder of the
 package version will always take precedence) while remaining visible
@@ -1048,14 +1044,13 @@ not possible to remove the suffix when a final release is available
 without disrupting the sort order.  This can lead the user to believe
 that the package is less mature than is actually the case.</p>
 </blockquote>
-
-<h3>File attributes</h3>
-<p>Each files in a binary package must have a RISC&nbsp;OS extra
+<h3><a name="TOC-File-attributes"></a>File attributes</h3>
+<p>Each files in a binary package must have a RISC OS extra
 information field.</p>
 <blockquote>
 <p>This specifies the file type, timestamp and file attributes.  It has
 a zip file tag of 0x4341.  Most zip file compressors written for or
-ported to RISC&nbsp;OS provide this field automatically.  Those intended
+ported to RISC OS provide this field automatically.  Those intended
 for other operating systems more likely do not.</p>
 </blockquote>
 <p>File attributes should be set to <code>LR/r</code> for static files
@@ -1075,25 +1070,28 @@ between files which should disappear when a package is removed and files
 which should remain until it is purged, however it is possible that file
 attributes will be used for this purpose.</p>
 </blockquote>
-
-<h2>System variables</h2>
-<h3>Ownership and definition</h3>
+<h2><a name="TOC-System-variables"></a>System variables</h2>
+<p>The use of System variables has been deprecated with Standards-Version
+0.4.0 and above. It is recommended that the LookAt option in the Control
+files Components field is used to Boot an application to set any
+variables required.</p>
+<h3><a name="TOC-Ownership-and-definition"></a>Ownership and definition</h3>
 <p>A package may claim ownership of a system variable by including a
 file named after the variable in its <code>SysVars</code> subdirectory.
 An escape mechanism is provided to allow for characters which have
-special meanings in RISC&nbsp;OS pathnames.  To use it, replace the
+special meanings in RISC OS pathnames.  To use it, replace the
 character with an equals-sign followed by a two-digit hexadecimal
 character code.</p>
 The following characters (and no others) must be escaped:
-&lsquo;.&rsquo; (full-stop),
-&lsquo;:&rsquo; (colon),
-&lsquo;$&rsquo; (dollar-sign),
-&lsquo;&amp;&rsquo; (ampersand),
-&lsquo;@&rsquo; (at-sign),
-&lsquo;^&rsquo; (caret),
-&lsquo;%&rsquo; (percent-sign),
-&lsquo;\&rsquo; (backslash) and
-&lsquo;=&rsquo; (equals-sign).<p></p>
+'.' (full-stop),
+':' (colon),
+'$' (dollar-sign),
+'&amp;' (ampersand),
+'@' (at-sign),
+'^' (caret),
+'%' (percent-sign),
+'\' (backslash) and
+'=' (equals-sign).
 <p>The following filetypes are allowed:</p>
 <table border="1">
 <tbody><tr>
@@ -1113,8 +1111,7 @@ The following characters (and no others) must be escaped:
 then this is done by <code>OS_GSTrans</code> or an equivalent, with the
 addition of support for logical pathname references (as described below).</p>
 <p>Note that this mechanism does <i>not</i> replace the need to set system variables in <code>!Boot</code> and <code>!Run</code> files.</p>
-
-<h3>Use of <code>Run$Path</code></h3>
+<h3><a name="TOC-Use-of-Run-Path"></a>Use of <code>Run$Path</code></h3>
 <p>Packages should not change <code>Run$Path</code> simply because
 they provide one or more command line programs.  Aliases of the form
 <code>Alias$command</code> should be used instead.</p>
@@ -1123,9 +1120,8 @@ they provide one or more command line programs.  Aliases of the form
 command line program were to extend it.  This would make the system less
 efficient and could eventually break it.</p>
 </blockquote>
-
-<h2>Desktop applications</h2>
-<h3>The <code>!Boot</code> file</h3>
+<h2><a name="TOC-Desktop-applications"></a>Desktop applications</h2>
+<h3><a name="TOC-The-Boot-file"></a>The <code>!Boot</code> file</h3>
 <p>The <code>!Boot</code> file must be idempotent (meaning that the result
 after executing it twice is the same as the result after executing it once.)
 </p>
@@ -1140,8 +1136,7 @@ to the following:</p>
 <p>Ideally the <code>!Boot</code> file would not replace existing sprites
 either, but it is not obvious how this could be easily achieved.</p>
 </blockquote>
-
-<h3>The <code>!Run</code> file</h3>
+<h3><a name="TOC-The-Run-file"></a>The <code>!Run</code> file</h3>
 <p>If the application needs a system variable to be set to a particular
 value then the <code>!Run</code> file should forcibly set that
 variable to the appropriate value.</p>
@@ -1166,9 +1161,12 @@ may be shared between several users or machines, (b) because the
 application directory cannot be made read-only, and (c) because
 the system variable cannot be shared between applications.</p>
 </blockquote>
-
-<h2>Sprites</h2>
-<h3>Sprite declarations</h3>
+<h2><a name="TOC-Sprites"></a>Sprites</h2>
+<p>The use of the Sprite declarations has been deprecated with
+Standards-Version 0.4.0 and above. It is recommended that the LookAt
+option in the Control files Components field is used to Boot an application
+to load any sprite that are required.</p>
+<h3><a name="TOC-Sprite-declarations"></a>Sprite declarations</h3>
 <p>The package manager has the ability to load sprites into the Wimp sprite
 pool at boot time.  For this to happen the sprite must be declared.  A
 package can do this by placing a file named after the sprite in its
@@ -1179,8 +1177,7 @@ using <code>OS_GSTrans</code> or an equivalent, with the addition of
 support for logical pathname references (as described below).</p>
 <p>Only one sprite may be specified per declaration, however any number of
 declarations may refer to a single sprite file.</p>
-
-<h3>Sprite resolution</h3>
+<h3><a name="TOC-Sprite-resolution"></a>Sprite resolution</h3>
 <p>The sprite file identified by the pathname should be one that is
 suitable for use as an argument to the <code>IconSprites</code> command.
 If higher-resolution versions of this file are present then they will be
@@ -1190,8 +1187,7 @@ sprite files called <code>!Sprites</code>, <code>!Sprites22</code> and
 <code>!Sprites11</code> then declarations should refer to the first of
 these only, but one of the others will be used if it is a better match to
 the screen mode.</p>
-
-<h2>Command line programs</h2>
+<h2><a name="TOC-Command-line-programs"></a>Command line programs</h2>
 <p>The preferred method for distributing command line programs is to
 encapsulate each one within a separate application directory, then
 set an alias of the form <code>Alias$command</code> to make the program
@@ -1215,8 +1211,7 @@ files may be added as required.</p>
 they are reasonably small (as is likely to be the case) they can be bundled
 into the same package as the executable.  More elaborate graphical front ends
 should in most cases be packaged separately.</p>
-
-<h2>Logical Pathname References</h2>
+<h2><a name="TOC-Logical-Pathname-References"></a>Logical Pathname References</h2>
 <p>When specifying the content of a system variable or the location of a
 sprite file it may be necessary to translate a logical pathname to a physical
 pathname.  This is done using an extension of the syntax implemented by
@@ -1234,9 +1229,24 @@ the trailing period must be placed outside the logical path reference:</p>
 <pre>&lt;RiscPkg$@Apps.Admin.!RiscPkg&gt;.
 
 </pre>
-
-<h2>Build Environment</h2>
-<h3>Introduction</h3>
+<h2><a name="TOC-Module-packages"></a>Module packages</h2>
+<p>A module package is a package that just contains a single RISC OS
+module that will be installed into the !System modules directory.</p>
+<p>It can contain a single module in the appropriate subdirectory
+of !System and optionally some documentation to be installed in the
+root Manuals directory.</p>
+<p>The package name should be the full name of the module (the module
+title) and the version must match the version number of the module
+followed by a dash and the package number (starting with 1).</p>
+<p>e.g. For a module in file MyMod with a title MyModule and version
+1.11, the package name should be MyModule and the version should be
+1.11-1.</p>
+<p>If the versioning rules are followed the packaging system will
+detect if a newer existing version of the module already exists on the
+machine and use that instead of the package when the module package
+is installed.</p>
+<h2><a name="TOC-Build-Environment"></a>Build Environment</h2>
+<h3><a name="TOC-Introduction3"></a>Introduction</h3>
 <p>The build environment is the set of tools, libraries and other resources
 that are external but available to a source package while it is being built.
 There are two parts to the build environment:</p>
@@ -1249,16 +1259,14 @@ be explicitly declared.</li>
 <p>The latter category is provided so that it is not necessary for large
 numbers of source packages to declare their need for basic facilities such
 as Make or GCC.  Binary packages which provide such resources are described
-as &lsquo;build-essential&amp;rsqup;.</p>
-<p>Two different build platforms are defined, RISC&nbsp;OS and POSIX, and
+as 'build-essential&amp;rsqup;.</p>
+<p>Two different build platforms are defined, RISC OS and POSIX, and
 there are differences between them.  Ideally source packages should be
 written so that they can be compiled on either, however it is recognised
 that this is impractical in many cases.</p>
-
-<h3>Build-essential packages</h3>
+<h3><a name="TOC-Build-essential-packages"></a>Build-essential packages</h3>
 <p>The following packages (or their equivalents) are build-essential when
 using RISC&nbsp;OS as the build platform:</p>
-
 <table border="1">
 <tbody><tr>
 <th>Name</th>
@@ -1356,41 +1364,35 @@ using RISC&nbsp;OS as the build platform:</p>
 <td>UU and base-64 file encoder</td>
 </tr>
 </tbody></table>
-
 <p>When using a POSIX-based system as the build platform, equivalent
 functionality should be provided, typically by installing GCCSDK,
 with the exception of FixDeps.  (The functionality of FixDeps can be
 achieved using Sed on a POSIX-based system.)</p>
-
 <p>The versions specified are the minimum allowed.  Higher versions may
 be used provided that they are fully backwards-compatible.  The method
 of installation for this software is unspecified: it is not necessary
 to use RiscPkg (although it would be sensible to do so where the build
-platform is RISC&nbsp;OS and the necessary packages are available.)</p>
-
+platform is RISC OS and the necessary packages are available.)</p>
 <p>Source packages should not attempt to test whether they are being
-built on RISC&nbsp;OS or POSIX; instead, they should determine whether
+built on RISC OS or POSIX; instead, they should determine whether
 the build platform provides the specific feature that is required.</p>
-
 <p>It is not necessary to write fully portable makefiles, as you can
 assume that Make will be compatible with the GNU Project version.</p>
-
-<h3>Environment Variables</h3>
+<h3><a name="TOC-Environment-Variables"></a>Environment Variables</h3>
 <p>The following environment variables may/shall be set by the autobuilder
 before invoking the Rules file of a source package:</p>
-
 <table border="1">
 <tbody><tr>
 <td>RISCPKG_BUILD_GNU_CPU_FAMILY</td>
 <td>Required</td>
 <td>The name used by the GNU toolchain to identify the target CPU family
-(currently always &lsquo;arm&rsquo;).</td>
+(currently always 'arm').</td>
 </tr>
 <tr>
 <td>RISCPKG_BUILD_GNU_CPU_TYPE</td>
 <td>Required</td>
 <td>The name used by the GNU toolchain to identify the specific target CPU
-(for example &lsquo;strongarm&rsquo; or &lsquo;xscale&rsquo;), or undefined
+(for example 'strongarm' or 'xscale'), or undefined
 to indicate that the compiler defaults should be used.</td>
 </tr>
 <tr>
@@ -1402,13 +1404,13 @@ to indicate that the compiler defaults should be used.</td>
 <td>CFLAGS</td>
 <td>Optional</td>
 <td>Flags to be passed to the C compiler.  These will include instances of
-&lsquo;mtune&rsquo; and &lsquo;mcpu&rsquo; if appropriate.</td>
+'mtune' and 'mcpu' if appropriate.</td>
 </tr>
 <tr>
 <td>CXXFLAGS</td>
 <td>Optional</td>
 <td>Flags to be passed to the C++ compiler.  These will include instances of
-&lsquo;mtune&rsquo; and &lsquo;mcpu&rsquo; if appropriate.</td>
+'mtune' and 'mcpu' if appropriate.</td>
 </tr>
 <tr>
 <td>LDFLAGS</td>
@@ -1416,22 +1418,21 @@ to indicate that the compiler defaults should be used.</td>
 <td>Flags to be passed to the linker.</td>
 </tr>
 </tbody></table>
-
-<h3>Bugs</h3>
+<h3><a name="TOC-Bugs"></a>Bugs</h3>
 <p>If you encounter a bug in a package on which you depend, either at
 run-time or build-time, then you should either wait for the bug to be fixed
 or put in place a workaround that allows the package to be built with or
 without a fix.  Do not install a workaround which is likely to break when
 the bug is corrected, as this will unnecessarily complicate the process of
 fixing it.</p>
-
-<h2>Acknowledgements</h2>
+<h2><a name="TOC-Acknowledgements"></a>Acknowledgements</h2>
 <p>Significant aspects of this policy manual are based on the
 Debian Policy Manual, written by Ian Jackson and Christian Schwarz.</p>
-
-<h2>Copyright</h2>
+<h2><a name="TOC-Copyright"></a>Copyright</h2>
 <p>This manual is part of the RISC OS Packaging Project.</p>
-<p>Copyright &copy; 2004-2006 Graham Shaw.</p>
+<p>Copyright &copy; 2004-2013 Graham Shaw.</p>
+<p>Minor edits and changes for Components &copy; 2014 Alan Buckley.</p>
 <p>Distribution and use are subject to the GNU General Public License,
 as published by the Free Software Foundation.</p>
+</body>
 </html>
