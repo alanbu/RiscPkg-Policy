@@ -8,7 +8,7 @@
 <body>
 <h1 align="center">RISC OS Packaging Project<br>
 Policy Manual<br>
-Version 0.4.0.0 (15 March 2014)</h1>
+Version 0.5.0.0 (11 March 2016)</h1>
 </tr>
 <tr>
 <h2><a name="TOC-Introduction"></a>Introduction</h2>
@@ -94,6 +94,10 @@ to be made available to the cross compiler and specify where they are
 to be installed.</td>
 </tr>
 <tr>
+<td><code>RiscPkg.Triggers</code></td>
+<td>Optional</td>
+<td>A directory containing files to be run during the install, remove
+or upgrade of a package.</td>
 <td><code>Apps</code></td>
 <td>Optional</td>
 <td>The root of the hierarchy within which applications are stored.
@@ -875,6 +879,190 @@ but it must contain the following information:</p>
 </ul>
 <p>(Note that without a distribution licence it is highly unlikely that
 a package can be distributed.)</p>
+<h3><a name="TOC-The-Triggers-directory"></a>The Triggers directory</h3>
+<p>A package can optionally contain runnable files in the <code>Triggers</code>
+directory in its <code>RiscPkg</code> directory that will be run as part of the
+commit (installation, removal or upgrade) of a package.</p>
+<p>
+Triggers should be used only when necessary and should be avoided in most cases as:
+<ul>
+<li>They increase the complexity of a package.</li>
+<li>Increase the time required to commit a package.</li>
+<li>Will not be run if the user manually installs a program from outside the
+ package manager.</li>
+</ul>
+It is always better to do any special actions when an application is first run
+rather than relying on triggers.</p>
+<p>
+The following names are used by code in the Triggers directory.
+<table border="1">
+<tbody><tr>
+<th>File</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>PreInstall</td><td>Run before a package is installed.</td>
+</tr>
+<tr>
+<td>PreRemove</td><td>Run before a package is removed.</td>
+</tr>
+<tr>
+<td>PostInstall</td><td>Run After a package has been installed.</td>
+</tr>
+<tr>
+<td>PostRemove</td><td>Run After a package has been removed.</td>
+</tr>
+</tbody></table>
+<i>It is only necessary to add the files for the triggers required.</i>
+</p>
+<p>
+Other code can be added to the Triggers directory and this will be available
+when the triggers are run. This allows for triggers to use shared code etc.</p>
+<p>
+The code can be any executable code and is run in a background TaskWindow with
+a WimpSlot of 256K.
+If logging is turned on, any output from the trigger is added to the Log.
+</p>
+<p>
+A triggers operation should not rely on any other trigger having been run
+and it should allow for cases where it may be called multiple times.
+</p>
+<p>
+Information is passed to and from a Trigger using system variables prefixed
+<code>PkgTrigger$</code>.
+</p>
+<p>
+At the minimum a trigger must set <code>PkgTrigger$ReturnCode</code> to 0
+if a trigger succeeds or to 1 if it fails.
+On failure <code>PkgTrigger$ReturnText</code> can be set to give the error
+message, which may then be logged/reported by the package manager.
+</p>
+<p>
+The full set of variables are:
+<table border="1"><tbody>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+</tr>
+<tr>
+<td><code>PkgTrigger$Action</code></td>
+<td>The current action, see below:</td>
+</tr>
+<tr>
+<td><code>PkgTrigger$Abort</code></td>
+<td>0 or 1. If set to 1 this trigger is being run to unwind a previous trigger failure.</td>
+</tr>
+<tr>
+<td><code>PkgTrigger$OldVersion</code></td>
+<td>The version of the package being removed or "" if it's an install.</td>
+</tr>
+<tr>
+<td><code>PkgTrigger$NewVersion</code></td>
+<td>The version of the package being installed or "" if it's being removed.</td>
+</tr>
+<tr>
+<td><code>PkgTrigger$Dir</code></td>
+<td>The directory the trigger is being run from. Use this as a prefix if
+ running other code in the Triggers directory.</td>
+</tr>
+<tr>
+<td><code>PkgTrigger$ReturnCode</code></td>
+<td>The return code from the trigger, should be set to 0 for success or 1 for failure.</td>
+</tr>
+<tr>
+<td><code>PkgTrigger$ReturnText</code></td>
+<td>Set to a brief error message it the trigger fails.</td>
+</tr>
+<tr>
+<td><code>PkgTrigger$Path&lt;n&gt;</code></td>
+<td>&lt;n&gt; is a number from 1 upwards. These variables contain the path to
+ the components in the package.</td>
+</tr>
+<tr>
+<td><code>PkgTrigger$S_*</code></td><td>
+Variables prefixed <code>PkgTrigger$S_</code> are shared variables that exist
+for the lifetime of the current package commit and are deleted after the commit
+has finished. They are used so state can be shared between triggers. It is
+advisable to use the package name in the variable name to avoid clashes with
+triggers from other packages.</td>
+</tr>
+</tbody></table>
+</p>
+<p>
+The PkgTrigger$Action can be:
+<table border="1"><tbody>
+<tr>
+<th>Action</th><th>Description</th>
+</tr>
+<tr>
+<td><code>install</code></td><td>The package is being installed.</td>
+</tr>
+<tr>
+<td><code>remove</code></td><td>The package is being removed.</td>
+</tr>
+<tr>
+<td><code>upgrade</code></td><td>The package is being upgraded.</td>
+</tr>
+<tr>
+<td><code>abort-remove</code></td><td>The trigger is being run as a remove failed.</td>
+</tr>
+<tr>
+<td><code>abort-install</code></td><td>The trigger is being run as an install failed.</td>
+</tr>
+<tr>
+<td><code>abort-upgrade</code></td><td>The trigger is being run as an upgrade failed.</td>
+</tr>
+</tbody></table>
+</p>
+<p>
+The triggers are called in the following order for an install.
+<ul>
+<li>PreInstall</li>
+<li>PostInstall</li>
+</ul>
+If PreInstall fails the package is not installed.
+If PostInstall fails the package is still installed, but a warning is shown.
+</p>
+<p>
+The triggers are called in the following order for a remove.
+<ul>
+<li>PreRemove</li>
+<li>PostRemove</li>
+</ul>
+If PreRemove fails the package is not removed.
+If PostRemove fails the package is still removed, but a warning is shown.
+</p>
+<p>
+The triggers are called in the following order for an upgrade
+<ul>
+<li>old-PreRemove</li>
+<li>new-PreInstall</li>
+<li>old-PostRemove</li>
+<li>new-PostInstall</li>
+</ul>
+The "old-" prefix indicates the trigger from the old package is run.
+The "new-" prefix indicates the trigger from the new package is run.
+</p>
+If old-PreRemove fails
+<ul>
+<li>The upgrade does not take place</li>
+<li>old-PostInstall is called (any failure is ignored)</li>
+</ul>
+</p>
+<p>
+If new-PreInstall fails
+<ul>
+<li>The upgrade does not take place</li>
+<li>new-PostRemove is called (any failure is ignored)</li>
+<li>old-PostInstall is called (any failure is ignored)</li>
+</ul>
+<p>
+If old-PostRemove fails and is not part of an abort the upgrade completes, but a warning is shown.
+</p>
+<p>
+If new-PostInstall fails and is not part of an abort the upgrade completes, but a warning is shown.
+</p>
+
 <h3><a name="TOC-The-Rules-file"></a>The Rules file</h3>
 <h4><a name="TOC-Introduction2"></a>Introduction</h4>
 <p>Every source package should contain a makefile called
@@ -1436,3 +1624,4 @@ Debian Policy Manual, written by Ian Jackson and Christian Schwarz.</p>
 as published by the Free Software Foundation.</p>
 </body>
 </html>
+
