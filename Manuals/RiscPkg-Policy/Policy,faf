@@ -157,6 +157,20 @@ It is recommended that this directory is used for OS updates only.</td>
 Raspberry Pi (<code>!Boot.Loader</code>). This is for system updates
 provided by RISC OS Open only.</td>
 </tr><tr>
+<td><code>Diversions</code></td>
+<td>Optional</td>
+<td>A directory that corresponds to the <code>Diversons</code> directory.
+This is used for Diversions installed with the RISC OS HardDisc image.
+<code>Apps.Games</code> should be used in preference where possible.</td>
+</tr><tr>
+<td><code>Documents</code></td>
+<td>Optional</td>
+<td>A directory that corresponds to the <code>Documents</code> directory.
+This has been added for documents installed with the RISC OS HardDisc image.
+It is suggested that this is used for non-technical documentation and examples
+files and <code>Manuals</code> is used for more technical documentation.
+</td>
+</tr><tr>
 <td><code>Printing</code></td>
 <td>Optional</td>
 <td>A directory which corresponds to the <code>Printing</code> directory.
@@ -167,7 +181,7 @@ printing system.</td>
 <td><code>Utilities</code></td>
 <td>Optional</td>
 <td>A directory which corresponds to the <code>Utilities</code> directory.
-This is used for Utilities installed with the RISC OS HardDisc image.
+This is used for utilities installed with the RISC OS HardDisc image.
 <code>Apps.Utilities</code> should be used in preference where possible.</td>
 </tr>
 <tr>
