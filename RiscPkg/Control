@@ -11,4 +11,4 @@ Description: The policy manual for the RISC OS Packaging Project
  to meet if they are to be accepted as part of the project.
 
 Package: RiscPkg-Policy
-Components: Manuals.RiscPkg-Policy.Policy (Moveable)
+Components: Manuals.RiscPkg-Policy.Policy (Moveble)
