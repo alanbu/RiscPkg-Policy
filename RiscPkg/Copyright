@@ -1,6 +1,7 @@
 This is part of the RISC OS Packaging Project policy manual package.
 
 The policy manual was written by Graham Shaw.
+Updates for versions 0.4.0.0 and above were written by Alan Buckley.
 
 Significant aspects are based on the Debian Policy Manual, written by
 Ian Jackson and Christian Schwarz.
