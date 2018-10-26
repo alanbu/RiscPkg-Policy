@@ -5,10 +5,11 @@ Licence: Free
 Maintainer: Alan Buckley <alan_baa@hotmail.com>
 Autobuild: RISCOS, POSIX
 Standards-Version: 0.4.0
-Version: 0.5.0.0-1
+Version: 0.6.0.0-1
 Description: The policy manual for the RISC OS Packaging Project
  This manual defines the standards which packages are normally expected
  to meet if they are to be accepted as part of the project.
 
 Package: RiscPkg-Policy
 Components: Manuals.RiscPkg-Policy.Policy (Movable)
+Environment: all
