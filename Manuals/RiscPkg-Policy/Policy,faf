@@ -8,7 +8,7 @@
 <body>
 <h1 align="center">RISC OS Packaging Project<br>
 Policy Manual<br>
-Version 0.6.0.0 (?? November 2018)</h1>
+Version 0.6.0.0 (01 November 2018)</h1>
 </tr>
 <tr>
 <h2><a name="TOC-Introduction"></a>Introduction</h2>
@@ -325,35 +325,35 @@ located in a control file or an index file:</p>
 <td>The name of the binary package</td>
 </tr>
 <tr>
-<td>Section</td>
+<td><a href="#TOC-The-Section-field">Section</a></td>
 <td>Required</td>
 <td>Required</td>
 <td>No</td>
 <td>A label for classifying packages by purpose</td>
 </tr>
 <tr>
-<td>Priority</td>
+<td><a href="#TOC-The-Priority-field">Priority</a></td>
 <td>Required</td>
 <td>Required</td>
 <td>No</td>
 <td>A label for classifying packages by importance</td>
 </tr>
 <tr>
-<td>Licence</td>
+<td><a href="#TOC-The-Licence-field">Licence</a></td>
 <td>Required</td>
 <td>Required</td>
 <td>No</td>
 <td>The type of licence carried by the package</td>
 </tr>
 <tr>
-<td>Maintainer</td>
+<td><a href="#TOC-The-Maintainer-field">Maintainer</a></td>
 <td>Required</td>
 <td>Required</td>
 <td>No</td>
 <td>The name and e-mail address of the maintainer</td>
 </tr>
 <tr>
-<td>Autobuild</td>
+<td><a href="#TOC-The-Autobuild-field">Autobuild</a></td>
 <td>Optional</td>
 <td>&mdash;</td>
 <td>No</td>
@@ -361,35 +361,35 @@ located in a control file or an index file:</p>
 automatically</td>
 </tr>
 <tr>
-<td>Standards-Version</td>
+<td><a href="#TOC-The-Standards-Version-field">Standards-Version</a></td>
 <td>Required</td>
 <td>Required</td>
 <td>No</td>
 <td>The version of this policy manual to which the package conforms</td>
 </tr>
 <tr>
-<td>Version</td>
+<td><a href="#TOC-The-Version-field">Version</a></td>
 <td>Required</td>
 <td>Required</td>
 <td>No</td>
 <td>The version number</td>
 </tr>
 <tr>
-<td>Size</td>
+<td><a href="#TOC-The-Size-field">Size</a></td>
 <td>Optional</td>
 <td>Optional</td>
 <td>Yes</td>
 <td>The size of the package file</td>
 </tr>
 <tr>
-<td>MD5Sum</td>
+<td><a href="#TOC-The-MD5Sum-field">MD5Sum</a></td>
 <td>Optional</td>
 <td>Optional</td>
 <td>Yes</td>
 <td>The MD5sum of the package file</td>
 </tr>
 <tr>
-<td>URL</td>
+<td><a href="#TOC-The-URL-field">URL</a></td>
 <td>Optional</td>
 <td>Optional</td>
 <td>Yes</td>
@@ -403,56 +403,63 @@ automatically</td>
 <td>Packages which must be present for this one to be built</td>
 </tr>
 <tr>
-<td>Depends</td>
+<td><a href="#TOC-The-Depends-field">Depends</a></td>
 <td>&mdash;</td>
 <td>Optional</td>
 <td>No</td>
 <td>Packages which must be present for this one to be installed</td>
 </tr>
 <tr>
-<td>Recommends</td>
+<td><a href="#TOC-The-Recommends-field">Recommends</a></td>
 <td>&mdash;</td>
 <td>Optional</td>
 <td>No</td>
 <td>Packages which would normally be wanted when this one is installed</td>
 </tr>
 <tr>
-<td>Suggests</td>
+<td><a href="#TOC-The-Suggests-field">Suggests</a></td>
 <td>&mdash;</td>
 <td>Optional</td>
 <td>No</td>
 <td>Packages which might be wanted because this one is installed</td>
 </tr>
 <tr>
-<td>Description</td>
+<td><a href="#TOC-The-Conflicts-field">Conflicts</a></td>
+<td>&mdash;</td>
+<td>Optional</td>
+<td>No</td>
+<td>Packages which should not be installed when this one is installed</td>
+</tr>
+<tr>
+<td><a href="#TOC-The-Description-field">Description</a></td>
 <td>Required</td>
 <td>Required</td>
 <td>No</td>
 <td>A brief description and a long description of this package</td>
 </tr>
 <tr>
-<td>Components</td>
+<td><a href="#TOC-The-Components-field">Components</a></td>
 <td>&mdash;</td>
 <td>Optional</td>
 <td>No</td>
 <td>A list of logical paths to components that may want to be moved
 or added to the boot options</td>
 <tr>
-<td>Environment</td>
+<td><a href="#TOC-The-Environment-field">Environment</a></td>
 <td>&mdash;</td>
 <td>Required</td>
 <td>No</td>
 <td>The RISC OS environment this package will run on</td>
 </tr>
 <tr>
-<td>OSDepends</td>
+<td><a href="#TOC-The-OSDepends-field">OSDepends</a></td>
 <td>&mdash;</td>
 <td>Optional</td>
 <td>No</td>
 <td>The RISC OS modules this package requires</td>
 </tr>
 <tr>
-<td>InstallPriority</td>
+<td><a href="#TOC-The-InstallPriority-field">InstallPriority</a></td>
 <td>&mdash;</td>
 <td>Optional</td>
 <td>No</td>
@@ -864,6 +871,25 @@ the same time does not imply that they conflict.</li>
 </ul>
 <p>Do not declare a conflict without first investigating whether it
 can be avoided.</p>
+<h4><a name="TOC-The-Description-field"></a>The 'Description' field</h4>
+<p>This field contains a brief description and a long description of
+the contents of the package.</p>
+<p>The first line of the description is the short description and 
+should be relatively short so that it can be used as a summary line
+in package lists.</p>
+<p>For example:
+<pre>
+Description: A package manager for RISC OS
+ The three main functions of RiscPkg are:
+ - to download and install new software packages on request;
+ - to update installed software packages when new versions are release; and
+ - to remove software packages when they are no longer needed.
+ .
+ If one package requires another in order to run, a request to install the
+ first will also install the second.  If a package has been installed
+ automatically but is no longer needed, it is removed.
+</pre>
+</p>
 <h4><a name="TOC-The-Components-field"></a>The 'Components' field</h4>
 <p>This contains a comma-separated list of the components that have extra
 configuration options:</p>
