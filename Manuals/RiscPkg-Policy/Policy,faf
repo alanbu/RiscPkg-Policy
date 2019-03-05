@@ -898,7 +898,7 @@ configuration options:</p>
 <p>The component-details consists of the the component logical file/folder name
 and its options:</p>
 <pre>component-details = file-name, [ws], component_options ;
-component-options = '(', { [ws], component_option {[ws] ' ' component-option } ,[ws], ')'
+component-options = '(', { [ws], component_option {[ws] ' ' component-option }, [ws], ')'
 component-option = 'Movable' , 'LookAt', 'Run', 'AddToApps';
 </pre>
 <p>The options are all defaults that the user may override when they
@@ -918,7 +918,7 @@ to the 'Apps' folder that is available from the RISC OS
 Iconbar</li>
 </ul>
 <p>For example:</p>
-<pre>Components: Apps.Development.!PackIt (Moveable,LookAt)
+<pre>Components: Apps.Development.!PackIt (Movable LookAt)
 </pre>
 <p>Packages with the Standards-Version set to 0.4.0 or later will assume
 that if the Components field is NOT set there are no movable components
