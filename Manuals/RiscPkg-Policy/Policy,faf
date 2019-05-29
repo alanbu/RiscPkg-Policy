@@ -438,6 +438,13 @@ automatically</td>
 <td>A brief description and a long description of this package</td>
 </tr>
 <tr>
+<td><a href="#TOC-The-Homepage-field">Homepage</a></td>
+<td>Optional</td>
+<td>Optional</td>
+<td>No</td>
+<td>A URL to a webpage were more information on this package</td>
+</tr>
+<tr>
 <td><a href="#TOC-The-Components-field">Components</a></td>
 <td>&mdash;</td>
 <td>Optional</td>
@@ -890,7 +897,16 @@ Description: A package manager for RISC OS
  automatically but is no longer needed, it is removed.
 </pre>
 </p>
-<h4><a name="TOC-The-Components-field"></a>The 'Components' field</h4>
+<h4><a name="TOC-The-Homepage-field"></a>The 'Homepage' field</h4>
+<p>This field contains a URL to a web page where more information about
+the package can be seen.</p>
+<p>The URL must start with the protocol "http" or "https".</p>
+<p>For example:
+<pre>
+Homepage: http://awebpage.com/agreatapp
+</pre>
+</p>
+</p><h4><a name="TOC-The-Components-field"></a>The 'Components' field</h4>
 <p>This contains a comma-separated list of the components that have extra
 configuration options:</p>
 <pre>components-list = [ component-details, { [ws], ',', [ws], component-details } ]
@@ -1751,4 +1767,3 @@ Debian Policy Manual, written by Ian Jackson and Christian Schwarz.</p>
 as published by the Free Software Foundation.</p>
 </body>
 </html>
-
