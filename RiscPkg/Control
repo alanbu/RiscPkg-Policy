@@ -12,4 +12,4 @@ Description: The policy manual for the RISC OS Packaging Project
 
 Package: RiscPkg-Policy
 Components: Manuals.RiscPkg-Policy.Policy (Movable)
-Environment: all
+Environment: any
