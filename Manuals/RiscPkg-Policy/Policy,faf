@@ -8,7 +8,7 @@
 <body>
 <h1 align="center">RISC OS Packaging Project<br>
 Policy Manual<br>
-Version 0.6.0.1 (25 March 2020)</h1>
+Version 0.7.0.0 (30 June 2020)</h1>
 </tr>
 <tr>
 <h2><a name="TOC-Introduction"></a>Introduction</h2>
@@ -177,7 +177,13 @@ files and <code>Manuals</code> is used for more technical documentation.
 <td>A directory which corresponds to the <code>Printing</code> directory.
 This is usually used for installation of components for the RISC OS
 printing system.</td>
-</tr>
+</tr><tr>
+<td><code>Public</code></td>
+<td>Optional</td>
+<td>A directory which corresponds to the <code>Public</code> directory.
+This is a directory used when ShareFS is enabled. By default it's the only
+directory other user on the network will see.
+</td></tr>
 <tr>
 <td><code>Utilities</code></td>
 <td>Optional</td>
