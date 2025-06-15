@@ -8,7 +8,7 @@
 <body>
 <h1 align="center">RISC OS Packaging Project<br>
 Policy Manual<br>
-Version 0.6.1.0 (8 Aug 2020)</h1>
+Version 0.6.0.2 (15 Jun 2025)</h1>
 </tr>
 <tr>
 <h2><a name="TOC-Introduction"></a>Introduction</h2>
@@ -968,6 +968,7 @@ combination:</p>
 <tr><td>arm26</td><td>26 bit code. Assembler or compiled code that uses instructions only available on 26 bit machines.</td></tr>
 <tr><td>arm32</td><td>32 bit code. Assembler or compiled code that uses instructions only available on 32 bit machines.</td></tr>
 <tr><td>vfp<sup>2</sup></td><td>Application that require the Vector floating point unit</td></tr>
+<tr><td>vfpv3<sup>2</sup></td><td>Application that require the Vector floating point unit (version 3)</td></tr>
 <tr><td>swp<sup>3</sup></td><td>Application that require the ARM SWP/SWPB instruction to be available</td></tr>
 </table>
 <i>
@@ -977,7 +978,7 @@ combination:</p>
 It is taken to mean all the machines available as of March 2020. Hopefully this will apply to
 future RISC OS machines as well, but there are sometimes breaking changes in the environment.
 </li>
-<li>The Vector floating point unit specified by the <b>vfp</b> code is only available on 32 bit processors, so it is not
+<li>The Vector floating point unit specified by the <b>vfp</b> and <b>vfpv3</b> code is only available on 32 bit processors, so it is not
 necessary to set the <b>arm32</b> code as well.
 </li>
 <li>The <b>swp</b> code is usually combined with the <b>arm</b> code. The 26 bit processessors all had the swp instruction.
@@ -1770,7 +1771,7 @@ Debian Policy Manual, written by Ian Jackson and Christian Schwarz.</p>
 <h2><a name="TOC-Copyright"></a>Copyright</h2>
 <p>This manual is part of the RISC OS Packaging Project.</p>
 <p>Copyright &copy; 2004-2016 Graham Shaw.</p>
-<p>Update from version 0.4.0 onwards &copy; 2014-2020 Alan Buckley.</p>
+<p>Update from version 0.4.0 onwards &copy; 2014-2025 Alan Buckley.</p>
 <p>Distribution and use are subject to the GNU General Public License,
 as published by the Free Software Foundation.</p>
 </body>
